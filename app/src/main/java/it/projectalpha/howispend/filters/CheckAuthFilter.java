@@ -1,11 +1,12 @@
-package it.projectalpha.howispend.utilities;
+package it.projectalpha.howispend.filters;
+
+import it.projectalpha.howispend.utilities.Session;
 
 public class CheckAuthFilter {
 
 
 
     private Session session;
-
     private static CheckAuthFilter instance;
 
     private CheckAuthFilter() {

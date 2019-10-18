@@ -1,10 +1,13 @@
-package it.projectalpha.howispend;
+package it.projectalpha.howispend.core;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.widget.CheckBox;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -19,14 +22,17 @@ import org.apache.commons.lang3.StringUtils;
 import org.json.JSONArray;
 import org.json.JSONException;
 
+import java.io.IOException;
 import java.text.ParseException;
 import java.util.Base64;
 import java.util.HashMap;
 import java.util.Map;
 
+import it.projectalpha.howispend.R;
 import it.projectalpha.howispend.model.Utente;
 import it.projectalpha.howispend.utilities.ButtonUtils;
 import it.projectalpha.howispend.utilities.Constants;
+import it.projectalpha.howispend.utilities.IOHandler;
 import it.projectalpha.howispend.utilities.InputTextUtils;
 import it.projectalpha.howispend.utilities.Session;
 import it.projectalpha.howispend.utilities.SnackbarUtils;
@@ -35,9 +41,11 @@ public class LoginActivity extends AppCompatActivity {
 
     private MaterialButton buttonLogin, nuovoAccountBtn;
     private TextInputEditText emailInput, passwordInput;
+    private CheckBox rimaniCollegato;
 
     private Constants constants;
     private Session session;
+    private IOHandler ioHandler;
 
 
     @Override
@@ -47,12 +55,33 @@ public class LoginActivity extends AppCompatActivity {
 
         constants = Constants.getInstance();
         session = Session.getInstance();
+        ioHandler = new IOHandler();
 
 
         buttonLogin = findViewById(R.id.login_btn);
         nuovoAccountBtn = findViewById(R.id.nuovo_account);
         emailInput = findViewById(R.id.emailInput);
         passwordInput = findViewById(R.id.passwordInput);
+        rimaniCollegato = findViewById(R.id.rimaniCollegato);
+
+
+        //Controllo rimani collegato
+        String readed = ioHandler.readFromFile(LoginActivity.this);
+        if(!"".equals(readed)) {
+            String[] readedSplitted = readed.split("&&&");
+
+            for(String string : readedSplitted) {
+                Log.e("CONTENT", string);
+            }
+
+            String savedEmail = readedSplitted[0].trim();
+            String savedPsw = readedSplitted[1].trim();
+            String passwordEncoded = Base64.getEncoder().encodeToString(savedPsw.getBytes());
+            emailInput.setText(savedEmail);
+            passwordInput.setText(savedPsw);
+            rimaniCollegato.setChecked(Boolean.valueOf(readedSplitted[2].trim()));
+            doLogin(savedEmail, passwordEncoded);
+        }
 
 
         buttonLogin.setOnClickListener(new View.OnClickListener() {
@@ -60,6 +89,7 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View view) {
                 String emailString = constants.getTextFromTextInput(emailInput);
                 String passwordString = constants.getTextFromTextInput(passwordInput);
+
                 if(invalidInput(emailString, passwordString)) {
                     return;
                 }
@@ -96,13 +126,25 @@ public class LoginActivity extends AppCompatActivity {
                             Utente utente = constants.createUserFromJson(jsonArray.getJSONObject(0));
                             session.setLoggedUser(utente);
 
+                            if(rimaniCollegato.isChecked()) {
+                                String toBeSaved = utente.getEmail() + " &&& " + utente.getPassword() + " &&& true";
+                                try {
+                                    ioHandler.writeToFile(toBeSaved, LoginActivity.this);
+                                    SnackbarUtils.showShortSnackBar(buttonLogin, "Verrai ricordato al prossimo accesso");
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                    SnackbarUtils.showShortSnackBar(buttonLogin,
+                                            "Qualcosa è andato storto nel salvare le credenziali");
+                                }
+                            }
+
                             Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
                             startActivity(intent);
 
 
                         } catch(JSONException | ParseException e)  {
                             e.printStackTrace();
-                            SnackbarUtils.showShortSnackBar(buttonLogin, "Username o passwordInput errati");
+                            SnackbarUtils.showShortSnackBar(buttonLogin, "Username o password errati");
                             setUsernameAndPasswordInputError();
                         }
                         finally {
@@ -113,17 +155,16 @@ public class LoginActivity extends AppCompatActivity {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError volleyError) {
-                        SnackbarUtils.showShortSnackBar(buttonLogin, "Username o passwordInput errati");
+                        SnackbarUtils.showShortSnackBar(buttonLogin, "Si è verificato un errore, riprova più tardi");
                         enableButtons(true);
-                        setUsernameAndPasswordInputError();
                     }
                 }) {
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();
 
-                params.put("emailInput", email);
-                params.put("passwordInput", password);
+                params.put("email", email);
+                params.put("password", password);
 
                 return params;
             }
@@ -150,8 +191,8 @@ public class LoginActivity extends AppCompatActivity {
 
 
     private void setUsernameAndPasswordInputError(){
-        InputTextUtils.setError(emailInput, "");
-        InputTextUtils.setError(passwordInput, "");
+        InputTextUtils.setError(emailInput, "Controlla l'email");
+        InputTextUtils.setError(passwordInput, "Controlla la password");
     }
 
     private void enableButtons(boolean value){

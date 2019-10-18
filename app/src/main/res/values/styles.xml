@@ -17,28 +17,38 @@
     <style name="title">
         <item name="android:textSize">30sp</item>
         <item name="android:textAppearance">@style/TextAppearance.MaterialComponents.Body2</item>
+        <item name="android:fontFamily">@font/roboto</item>
     </style>
 
     <style name="subtitle">
         <item name="android:textSize">18sp</item>
         <item name="android:textAppearance">@style/TextAppearance.MaterialComponents.Body1</item>
+        <item name="android:fontFamily">@font/roboto</item>
     </style>
 
     <style name="backgroundedButton" parent="@style/Widget.MaterialComponents.Button.TextButton">
         <item name="android:textSize">14sp</item>
-        <item name="android:textAppearance">@style/Widget.MaterialComponents.Button.TextButton
-        </item>
+        <item name="android:textAppearance">@style/Widget.MaterialComponents.Button.TextButton</item>
         <item name="android:textColor">@android:color/background_light</item>
         <item name="android:backgroundTint">@color/colorAccentDark</item>
     </style>
 
     <style name="noBackgroundButton" parent="@style/Widget.MaterialComponents.Button.TextButton">
         <item name="android:textSize">14sp</item>
-        <item name="android:textAppearance">@style/Widget.MaterialComponents.Button.TextButton
-        </item>
+        <item name="android:textAppearance">@style/Widget.MaterialComponents.Button.TextButton</item>
         <item name="android:background">@null</item>
         <item name="android:textColor">@color/colorAccentDark</item>
     </style>
+
+    <style name="checkbox">
+        <item name="android:fontFamily">@font/roboto</item>
+    </style>
+
+
+
+
+
+
 
     <style name="AppTheme.NoActionBar">
         <item name="windowActionBar">false</item>

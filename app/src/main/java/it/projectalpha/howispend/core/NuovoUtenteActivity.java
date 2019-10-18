@@ -1,6 +1,7 @@
-package it.projectalpha.howispend;
+package it.projectalpha.howispend.core;
 
 import androidx.appcompat.app.AppCompatActivity;
+import it.projectalpha.howispend.R;
 
 import android.os.Bundle;
 
