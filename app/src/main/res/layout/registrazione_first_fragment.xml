@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <!--INPUT NOME-->
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textInputLayoutNome"
+        style="@style/inputField"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:hint="@string/nome">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/nuovoUtenteNome"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+    <!--INPUT NOME-->
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textInputLayoutCognome"
+        style="@style/inputField"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:hint="@string/cognome">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/nuovoUtenteCognome"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <!--BTN AVANTI-->
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/nuovoUtenteStep2"
+        style="@style/backgroundedButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:text="@string/avanti"/>
+
+
+
+</LinearLayout>

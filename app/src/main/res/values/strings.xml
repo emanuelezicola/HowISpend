@@ -2,6 +2,10 @@
     <string name="app_name">HowISpend</string>
 
 
+    <!--CONSTANTS-->
+    <string name="nome">Nome</string>
+    <string name="cognome">Cognome</string>
+
     <!--LOGIN-->
     <string name="email">Email</string>
     <string name="password">Password</string>
@@ -10,5 +14,14 @@
     <string name="avanti">Avanti</string>
     <string name="crea_un_account">Crea un account</string>
     <string name="title_activity_home">HomeActivity</string>
+
+
+    <!--NUOVO UTENTE-->
+    <string name="nuovo_utente_title">Registrazione</string>
+    <string name="nuovo_utente_subtitle">Inserisci le informazioni richieste</string>
+
+
+
+
 
 </resources>
