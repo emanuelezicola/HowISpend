@@ -11,7 +11,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".core.NuovoUtenteActivity"/>
+        <activity android:name=".core.registrazione.NuovoUtenteActivity"/>
         <activity android:name=".core.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
-import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -29,6 +28,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import it.projectalpha.howispend.R;
+import it.projectalpha.howispend.core.registrazione.NuovoUtenteActivity;
 import it.projectalpha.howispend.model.Utente;
 import it.projectalpha.howispend.utilities.ButtonUtils;
 import it.projectalpha.howispend.utilities.Constants;
