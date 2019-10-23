@@ -5,12 +5,15 @@
     <!--CONSTANTS-->
     <string name="nome">Nome</string>
     <string name="cognome">Cognome</string>
-    <string name="annulla">Annulla</string>
-    <string name="avanti">Avanti</string>
-
-    <!--LOGIN-->
     <string name="email">Email</string>
     <string name="password">Password</string>
+    <string name="conferma_password">Conferma password</string>
+    <string name="annulla">Annulla</string>
+    <string name="avanti">Avanti</string>
+    <string name="indietro">Indietro</string>
+
+    <!--LOGIN-->
+
     <string name="login_title">Accedi</string>
     <string name="login_subtitle">Inserisci le tue credenziali</string>
     <string name="crea_un_account">Crea un account</string>
@@ -20,6 +23,7 @@
     <!--NUOVO UTENTE-->
     <string name="nuovo_utente_title">Registrazione</string>
     <string name="nuovo_utente_subtitle">Inserisci le informazioni richieste</string>
+    <string name="crea_utente">Crea utente</string>
 
 
 

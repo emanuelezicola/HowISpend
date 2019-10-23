@@ -8,6 +8,8 @@ import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
 
+import com.google.android.material.button.MaterialButton;
+
 import java.util.Objects;
 
 import it.projectalpha.howispend.R;
@@ -17,7 +19,9 @@ public class RegistrazioneSecondFragment extends Fragment {
 
     private View view;
 
-    private TextView text3;
+    private MaterialButton indietro, creaUtente;
+
+    private Utente utente;
 
 
     @Override
@@ -26,15 +30,24 @@ public class RegistrazioneSecondFragment extends Fragment {
 
         view = inflater.inflate(R.layout.registrazione_second_fragment, container, false);
 
-        Bundle bundle = getArguments();
-        Utente obj = (Utente) Objects.requireNonNull(bundle).getSerializable("nuovoUtente");
+        utente = NuovoUtenteActivity.getUtente();
 
+        indietro = view.findViewById(R.id.backToFirst);
+        creaUtente = view.findViewById(R.id.creaUtente);
 
-        text3 = view.findViewById(R.id.textView3);
-        text3.setText("Benevenuto " + obj.getNome() + " " + obj.getCognome());
+        indietro.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //TODO INDIETRO
+            }
+        });
 
-        //TODO EMAIL E PASSWORD
-
+        creaUtente.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //TODO CREA UTENTE
+            }
+        });
 
         return view;
     }

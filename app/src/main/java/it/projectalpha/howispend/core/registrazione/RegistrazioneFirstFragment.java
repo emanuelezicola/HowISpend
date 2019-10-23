@@ -45,6 +45,16 @@ public class RegistrazioneFirstFragment extends Fragment {
         nomeInput = view.findViewById(R.id.nuovoUtenteNome);
         cognomeInput = view.findViewById(R.id.nuovoUtenteCognome);
 
+        utente = NuovoUtenteActivity.getUtente();
+
+        if(!StringUtils.isBlank(utente.getNome())) {
+            nomeInput.setText(utente.getNome());
+        }
+
+        if(!StringUtils.isBlank(utente.getCognome())) {
+            cognomeInput.setText(utente.getCognome());
+        }
+
         btnAvanti.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -54,18 +64,12 @@ public class RegistrazioneFirstFragment extends Fragment {
 
                 if(!invalidInput(nome, cognome)) {
 
-                    utente = new Utente();
                     utente.setNome(nome);
                     utente.setCognome(cognome);
 
-                    Bundle bundle = new Bundle();
-                    bundle.putSerializable("nuovoUtente", utente);
-
+                    NuovoUtenteActivity.setUtente(utente);
 
                     RegistrazioneSecondFragment fragment2 = new RegistrazioneSecondFragment();
-                    fragment2.setArguments(bundle);
-
-
                     FragmentManager fragmentManager = getFragmentManager();
                     FragmentTransaction fragmentTransaction = Objects.requireNonNull(fragmentManager).beginTransaction();
                     fragmentTransaction.replace(R.id.nuovoUtenteFrame, fragment2);

@@ -12,7 +12,7 @@
         style="@style/inputField"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="24dp"
         android:hint="@string/nome"
         app:counterEnabled="true"
         app:counterMaxLength="30"
@@ -27,8 +27,9 @@
             android:id="@+id/nuovoUtenteNome"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:maxLines="1"
-            android:maxLength="30"/>
+            android:inputType="textCapSentences"
+            android:maxLength="30"
+            android:maxLines="1" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -53,7 +54,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:maxLines="1"
-            android:maxLength="30"/>
+            android:maxLength="30"
+            android:inputType="textCapSentences"/>
 
     </com.google.android.material.textfield.TextInputLayout>
 
