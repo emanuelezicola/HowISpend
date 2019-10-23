@@ -87,8 +87,8 @@ public class LoginActivity extends AppCompatActivity {
         buttonLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String emailString = constants.getTextFromTextInput(emailInput);
-                String passwordString = constants.getTextFromTextInput(passwordInput);
+                String emailString = InputTextUtils.getTextFromTextInput(emailInput);
+                String passwordString = InputTextUtils.getTextFromTextInput(passwordInput);
 
                 if(invalidInput(emailString, passwordString)) {
                     return;
@@ -136,6 +136,11 @@ public class LoginActivity extends AppCompatActivity {
                                     SnackbarUtils.showShortSnackBar(buttonLogin,
                                             "Qualcosa è andato storto nel salvare le credenziali");
                                 }
+                            } else {
+                                SnackbarUtils.showShortSnackBar(buttonLogin,
+                                        ioHandler.deleteFile(getApplicationContext()) ?
+                                                "Dovrai inserire le credenziali al prossimo accesso"
+                                                : "Si è verificato un problema nel rimuovere le credenziali");
                             }
 
                             Intent intent = new Intent(LoginActivity.this, HomeActivity.class);

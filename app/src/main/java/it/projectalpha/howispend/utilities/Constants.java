@@ -130,10 +130,6 @@ public class Constants {
     }
 
 
-    public String getTextFromTextInput(TextInputEditText editText) {
-        return editText.getText().toString().trim();
-    }
-
     public Utente createUserFromJson(JSONObject jsonObject) throws ParseException, JSONException {
         int id = jsonObject.getInt("id");
         String nome = jsonObject.getString("nome");

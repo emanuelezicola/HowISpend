@@ -8,4 +8,9 @@ public class InputTextUtils {
         inputField.setError(message);
     }
 
+
+    public static String getTextFromTextInput(TextInputEditText editText) {
+        return editText.getText().toString().trim();
+    }
+
 }

@@ -5,13 +5,14 @@
     <!--CONSTANTS-->
     <string name="nome">Nome</string>
     <string name="cognome">Cognome</string>
+    <string name="annulla">Annulla</string>
+    <string name="avanti">Avanti</string>
 
     <!--LOGIN-->
     <string name="email">Email</string>
     <string name="password">Password</string>
     <string name="login_title">Accedi</string>
     <string name="login_subtitle">Inserisci le tue credenziali</string>
-    <string name="avanti">Avanti</string>
     <string name="crea_un_account">Crea un account</string>
     <string name="title_activity_home">HomeActivity</string>
 

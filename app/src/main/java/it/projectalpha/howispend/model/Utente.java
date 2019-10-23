@@ -3,9 +3,10 @@ package it.projectalpha.howispend.model;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 
-public class Utente {
+public class Utente implements Serializable {
 
     private Integer id;
     private String nome;
@@ -32,6 +33,8 @@ public class Utente {
         this.password = password;
         this.dataCreazione = dataCreazione;
     }
+
+    public Utente() {}
 
     public Integer getId() {
         return id;

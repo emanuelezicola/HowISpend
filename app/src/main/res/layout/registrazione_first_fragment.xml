@@ -6,12 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-
     <!--INPUT NOME-->
-
-
-    <!--INPUT NOME-->
-
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/textInputLayoutNome"
         style="@style/inputField"
@@ -19,6 +14,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:hint="@string/nome"
+        app:counterEnabled="true"
+        app:counterMaxLength="30"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
@@ -29,11 +26,13 @@
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/nuovoUtenteNome"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:maxLines="1"
+            android:maxLength="30"/>
 
     </com.google.android.material.textfield.TextInputLayout>
 
-    <!--BTN AVANTI-->
+    <!--INPUT COGNOME-->
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/textInputLayoutCognome"
         style="@style/inputField"
@@ -41,6 +40,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:hint="@string/cognome"
+        app:counterEnabled="true"
+        app:counterMaxLength="30"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -50,10 +51,13 @@
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/nuovoUtenteCognome"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:maxLines="1"
+            android:maxLength="30"/>
 
     </com.google.android.material.textfield.TextInputLayout>
 
+    <!--BTN AVANTI-->
     <com.google.android.material.button.MaterialButton
         android:id="@+id/nuovoUtenteStep2"
         style="@style/backgroundedButton"
@@ -65,6 +69,22 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textInputLayoutCognome"
+        app:layout_constraintVertical_bias="1.0"/>
+
+    <!--BTN ANNULLA-->
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/backToLogin"
+        style="@style/noBackgroundButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginBottom="32dp"
+        android:text="@string/annulla"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/nuovoUtenteStep2"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textInputLayoutCognome"
         app:layout_constraintVertical_bias="1.0"/>
