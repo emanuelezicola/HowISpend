@@ -5,8 +5,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
-
 import androidx.fragment.app.Fragment;
 
 import com.android.volley.Request;
@@ -19,11 +17,6 @@ import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 
 import org.apache.commons.lang3.StringUtils;
-import org.json.JSONArray;
-import org.json.JSONException;
-
-import java.io.IOException;
-import java.text.ParseException;
 import java.time.LocalDate;
 import java.util.Base64;
 import java.util.HashMap;
@@ -33,7 +26,6 @@ import java.util.Objects;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import it.projectalpha.howispend.R;
-import it.projectalpha.howispend.core.HomeActivity;
 import it.projectalpha.howispend.core.LoginActivity;
 import it.projectalpha.howispend.model.Utente;
 import it.projectalpha.howispend.utilities.ButtonUtils;
@@ -52,6 +44,7 @@ public class RegistrazioneSecondFragment extends Fragment {
     private Constants constants;
 
 
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -67,10 +60,16 @@ public class RegistrazioneSecondFragment extends Fragment {
         passwordInput = view.findViewById(R.id.nuovoUtentePassword);
         confermaPasswordInput = view.findViewById(R.id.nuovoUtentePasswordRepeat);
 
+
+        NuovoUtenteActivity.setFragment("step2");
+
+
         //Gestione tasto indietro
         indietro.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+
                 RegistrazioneFirstFragment fragment1 = new RegistrazioneFirstFragment();
                 FragmentManager fragmentManager = getFragmentManager();
                 FragmentTransaction fragmentTransaction = Objects.requireNonNull(fragmentManager).beginTransaction();
@@ -174,6 +173,7 @@ public class RegistrazioneSecondFragment extends Fragment {
                             startActivity(intent);
                             ButtonUtils.enableButton(creaUtente, true);
                             NuovoUtenteActivity.setUtente(new Utente());
+                            NuovoUtenteActivity.setFragment(null);
                         }
 
                         else {

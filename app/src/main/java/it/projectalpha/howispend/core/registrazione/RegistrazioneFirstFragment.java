@@ -7,16 +7,17 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 
 import org.apache.commons.lang3.StringUtils;
 
+
 import java.util.Objects;
 
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import it.projectalpha.howispend.R;
 import it.projectalpha.howispend.core.LoginActivity;
 import it.projectalpha.howispend.utilities.InputTextUtils;
@@ -30,6 +31,7 @@ public class RegistrazioneFirstFragment extends Fragment {
 
     private MaterialButton btnAvanti, btnAnnulla;
     private TextInputEditText nomeInput, cognomeInput;
+
 
     private Utente utente;
 
@@ -45,7 +47,9 @@ public class RegistrazioneFirstFragment extends Fragment {
         nomeInput = view.findViewById(R.id.nuovoUtenteNome);
         cognomeInput = view.findViewById(R.id.nuovoUtenteCognome);
 
+
         utente = NuovoUtenteActivity.getUtente();
+        NuovoUtenteActivity.setFragment("step1");
 
         if(!StringUtils.isBlank(utente.getNome())) {
             nomeInput.setText(utente.getNome());
@@ -69,6 +73,7 @@ public class RegistrazioneFirstFragment extends Fragment {
 
                     NuovoUtenteActivity.setUtente(utente);
 
+
                     RegistrazioneSecondFragment fragment2 = new RegistrazioneSecondFragment();
                     FragmentManager fragmentManager = getFragmentManager();
                     FragmentTransaction fragmentTransaction = Objects.requireNonNull(fragmentManager).beginTransaction();
@@ -86,11 +91,9 @@ public class RegistrazioneFirstFragment extends Fragment {
                 startActivity(intent);
             }
         });
-
-
-
         return view;
     }
+
 
 
     private boolean invalidInput(String nome, String cognome) {
