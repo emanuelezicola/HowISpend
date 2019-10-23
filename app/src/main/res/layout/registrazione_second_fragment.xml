@@ -2,7 +2,6 @@
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -15,7 +14,7 @@
         android:layout_marginTop="24dp"
         android:hint="@string/email"
         app:counterEnabled="true"
-        app:counterMaxLength="30"
+        app:counterMaxLength="50"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
@@ -27,8 +26,8 @@
             android:id="@+id/nuovoUtenteEmail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:maxLength="30"
-            android:maxLines="1" />
+            android:maxLength="50"
+            style="@style/inputText"/>
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -55,7 +54,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:maxLength="30"
-            android:maxLines="1" />
+            style="@style/passwordInputText"/>
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -82,13 +81,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:maxLength="30"
-            android:maxLines="1" />
+            style="@style/passwordInputText"/>
 
     </com.google.android.material.textfield.TextInputLayout>
 
 
-    <!--INDIETRO-->
-
+    <!--CREA UTENTE-->
     <com.google.android.material.button.MaterialButton
         android:id="@+id/creaUtente"
         style="@style/backgroundedButton"
@@ -105,6 +103,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textInputLayoutPasswordRepeat"
         app:layout_constraintVertical_bias="1.0" />
 
+    <!--INDIETRO-->
     <com.google.android.material.button.MaterialButton
         android:id="@+id/backToFirst"
         style="@style/noBackgroundButton"

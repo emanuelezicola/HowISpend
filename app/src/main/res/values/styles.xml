@@ -9,11 +9,29 @@
     </style>
 
 
+    <!--INPUT-->
     <style name="inputField" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
         <item name="android:layout_marginStart">20dp</item>
         <item name="android:layout_marginEnd">20dp</item>
     </style>
 
+    <style name="inputText">
+        <item name="android:maxLines">1</item>
+        <item name="android:inputType">textShortMessage</item>
+    </style>
+
+    <style name="passwordInputField" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
+        <item name="android:layout_marginStart">20dp</item>
+        <item name="android:layout_marginEnd">20dp</item>
+    </style>
+
+    <style name="passwordInputText">
+        <item name="android:maxLines">1</item>
+        <item name="android:inputType">textPassword</item>
+    </style>
+
+
+    <!--TEXT-->
     <style name="title">
         <item name="android:textSize">30sp</item>
         <item name="android:textAppearance">@style/TextAppearance.MaterialComponents.Body2</item>
@@ -26,6 +44,7 @@
         <item name="android:fontFamily">@font/roboto</item>
     </style>
 
+    <!--BUTTONS-->
     <style name="backgroundedButton" parent="@style/Widget.MaterialComponents.Button.TextButton">
         <item name="android:textSize">14sp</item>
         <item name="android:textAppearance">@style/Widget.MaterialComponents.Button.TextButton</item>

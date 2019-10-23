@@ -1,6 +1,7 @@
 package it.projectalpha.howispend.core.registrazione;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.viewpager.widget.PagerAdapter;
 import it.projectalpha.howispend.R;
 import it.projectalpha.howispend.core.LoginActivity;
 import it.projectalpha.howispend.model.Utente;
@@ -11,6 +12,7 @@ import android.os.Bundle;
 public class NuovoUtenteActivity extends AppCompatActivity {
 
     private static Utente utente = new Utente();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
