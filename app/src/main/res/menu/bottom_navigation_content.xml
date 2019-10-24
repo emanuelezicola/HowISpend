@@ -13,6 +13,11 @@
         android:title="@string/insight"/>
 
     <item
+        android:id="@+id/cerca_navigation"
+        android:icon="@drawable/ic_cerca"
+        android:title="@string/cerca"/>
+
+    <item
         android:id="@+id/profilo_navigation"
         android:icon="@drawable/ic_profilo"
         android:title="@string/profilo"/>
