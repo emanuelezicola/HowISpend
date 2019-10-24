@@ -46,14 +46,14 @@ public class ProfiloFragment extends Fragment {
 
         setRes();
 
-        
+
         wrapperNome.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 createDialog("Sei sicuro di voler cambiare nome?", "Inserisci il nuovo nome", "nome");
             }
         });
-        
+
         wrapperCognome.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -61,6 +61,7 @@ public class ProfiloFragment extends Fragment {
             }
         });
 
+        //TODO CARD CONTATTI
 
 
 
