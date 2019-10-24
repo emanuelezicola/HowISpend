@@ -1,4 +1,4 @@
-package it.projectalpha.howispend.core.registrazione;
+package it.projectalpha.howispend.core.activity.registrazione;
 
 import android.os.Bundle;
 import android.content.Intent;
@@ -19,7 +19,7 @@ import java.util.Objects;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import it.projectalpha.howispend.R;
-import it.projectalpha.howispend.core.LoginActivity;
+import it.projectalpha.howispend.core.activity.LoginActivity;
 import it.projectalpha.howispend.utilities.InputTextUtils;
 
 import it.projectalpha.howispend.model.Utente;

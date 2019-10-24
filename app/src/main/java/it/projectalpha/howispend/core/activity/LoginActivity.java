@@ -1,10 +1,9 @@
-package it.projectalpha.howispend.core;
+package it.projectalpha.howispend.core.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
 
@@ -28,8 +27,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import it.projectalpha.howispend.R;
-import it.projectalpha.howispend.core.home.HomeActivity;
-import it.projectalpha.howispend.core.registrazione.NuovoUtenteActivity;
+import it.projectalpha.howispend.core.activity.home.HomeActivity;
+import it.projectalpha.howispend.core.activity.registrazione.NuovoUtenteActivity;
 import it.projectalpha.howispend.model.Utente;
 import it.projectalpha.howispend.utilities.ButtonUtils;
 import it.projectalpha.howispend.utilities.Constants;
@@ -70,10 +69,6 @@ public class LoginActivity extends AppCompatActivity {
         String readed = ioHandler.readFromFile(LoginActivity.this);
         if(!"".equals(readed)) {
             String[] readedSplitted = readed.split("&&&");
-
-            for(String string : readedSplitted) {
-                Log.e("CONTENT", string);
-            }
 
             String savedEmail = readedSplitted[0].trim();
             String savedPsw = readedSplitted[1].trim();

@@ -22,11 +22,10 @@
 
     <!--MENU-->
     <com.google.android.material.navigation.NavigationView
-        android:id="@+id/menulaterale"
+        android:id="@+id/menu_laterale"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="start"
-        app:headerLayout="@layout/drawer_icon"
         app:menu="@menu/drawer_menu"/>
 
 

@@ -11,15 +11,15 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".core.registrazione.NuovoUtenteActivity"/>
-        <activity android:name=".core.LoginActivity">
+        <activity android:name=".core.activity.registrazione.NuovoUtenteActivity"/>
+        <activity android:name=".core.activity.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".core.home.HomeActivity" />
+        <activity android:name=".core.activity.home.HomeActivity" />
 
         <meta-data
             android:name="preloaded_fonts"

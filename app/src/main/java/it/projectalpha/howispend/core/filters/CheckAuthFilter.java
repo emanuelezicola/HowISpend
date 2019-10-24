@@ -1,4 +1,4 @@
-package it.projectalpha.howispend.filters;
+package it.projectalpha.howispend.core.filters;
 
 import it.projectalpha.howispend.utilities.Session;
 

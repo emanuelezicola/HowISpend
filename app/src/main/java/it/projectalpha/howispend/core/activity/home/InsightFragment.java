@@ -1,4 +1,4 @@
-package it.projectalpha.howispend.core.home;
+package it.projectalpha.howispend.core.activity.home;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -10,12 +10,13 @@ import androidx.fragment.app.Fragment;
 
 import it.projectalpha.howispend.R;
 
-public class ProfiloFragment extends Fragment {
+public class InsightFragment extends Fragment {
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.profilo_fragment, null);
+
+        return inflater.inflate(R.layout.home_insight_fragment, null);
     }
 
 }
