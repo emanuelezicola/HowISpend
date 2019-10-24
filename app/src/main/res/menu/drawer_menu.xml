@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+
+    <item
+        android:id="@+id/profilo_drawer"
+        android:title="@string/profilo"
+        android:icon="@drawable/ic_profilo"/>
+
+
+    <item
+        android:id="@+id/esci_drawer"
+        android:title="@string/esci"
+        android:icon="@drawable/ic_logout"/>
+
+
+</menu>

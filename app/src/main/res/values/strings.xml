@@ -27,6 +27,20 @@
 
 
 
+    <!--DRAWER MENU AND BOTTOM NAVIGATION-->
+    <string name="profilo">Profilo</string>
+    <string name="esci">Esci</string>
+    <string name="apri">Apri</string>
+    <string name="chiudi">Chiudi</string>
+    <string name="home">Home</string>
+    <string name="insight">Insight</string>
+
+
+
+
+
+
+
 
 
 </resources>

@@ -19,7 +19,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".core.HomeActivity" />
+        <activity android:name=".core.home.HomeActivity" />
 
         <meta-data
             android:name="preloaded_fonts"
