@@ -53,10 +53,6 @@ public class NuovoUtenteActivity extends AppCompatActivity {
         utente = nuovoUtente;
     }
 
-    public static String getFragment() {
-        return fragment;
-    }
-
     public static void setFragment(String fragmentNuovo) {
         fragment = fragmentNuovo;
     }

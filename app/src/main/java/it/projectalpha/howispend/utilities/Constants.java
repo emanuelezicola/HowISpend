@@ -19,6 +19,7 @@ public class Constants {
     //UTENTE
     private final String URL_LOGIN = "https://howispend.altervista.org/utente/login.php";
     private final String URL_NUOVO_UTENTE = "https://howispend.altervista.org/utente/nuovoUtente.php";
+    private final String URL_MODIFICA_UTENTE = "https://howispend.altervista.org/utente/modificaUtente.php";
 
     //MESE
     private final String URL_ALL_MESI = "https://howispend.altervista.org/mese/fetchAllMesi.php";
@@ -70,6 +71,9 @@ public class Constants {
         return URL_NUOVO_UTENTE;
     }
 
+    public String getURL_MODIFICA_UTENTE() {
+        return URL_MODIFICA_UTENTE;
+    }
 
     public String getURL_ALL_MESI() { return URL_ALL_MESI;}
 

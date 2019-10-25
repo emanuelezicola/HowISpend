@@ -41,6 +41,14 @@
     <!--PROFILO-->
     <string name="nomeMaiusc">NOME</string>
     <string name="cognomeMaiusc">COGNOME</string>
+    <string name="contatti">Contatti</string>
+    <string name="emailMaiusc">EMAIL</string>
+    <string name="passwordMaiusc">PASSWORD</string>
+
+
+    <!--DIALOG CAMBIO PASSWORD-->
+    <string name="vecchia_password">Vecchia password</string>
+    <string name="nuova_password">Nuova password</string>
 
 
 

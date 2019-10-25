@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -24,6 +25,7 @@ import it.projectalpha.howispend.utilities.SnackbarUtils;
 public class DialogCambiaNomeCognome extends AppCompatDialogFragment {
 
     private TextInputEditText nomeInput;
+    private TextInputLayout wrapperNomeInput;
 
 
     private CambiaNomeCognomeDialogListener listener;
@@ -38,11 +40,14 @@ public class DialogCambiaNomeCognome extends AppCompatDialogFragment {
         @SuppressLint("InflateParams") final View view = inflater.inflate(R.layout.dialog_cambio_nome, null);
 
         nomeInput = view.findViewById(R.id.nuovoNomeInput);
+        wrapperNomeInput = view.findViewById(R.id.wrapperNomeCognome);
 
         Bundle bundle = Objects.requireNonNull(getArguments());
         String title = bundle.getString("Title");
         String message = bundle.getString("Message");
         final String nomeOCognome = bundle.getString("Valore");
+
+        wrapperNomeInput.setHint(nomeOCognome);
 
         builder.setView(view)
                 .setTitle(title)
@@ -62,7 +67,7 @@ public class DialogCambiaNomeCognome extends AppCompatDialogFragment {
                             SnackbarUtils.showShortSnackBar(view, "Il " + nomeOCognome + " inserito non è valido");
                             return;
                         }
-                        if("nome".equals(nomeOCognome)) {
+                        if("Nome".equals(nomeOCognome)) {
                             listener.cambiaNome(nome);
                         } else {
                             listener.cambiaCognome(nome);

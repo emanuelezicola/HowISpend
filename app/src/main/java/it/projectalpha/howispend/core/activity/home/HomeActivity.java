@@ -11,29 +11,50 @@ import android.widget.Toast;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.view.GestureDetectorCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
+import java.text.ParseException;
+import java.util.Base64;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 import it.projectalpha.howispend.R;
 import it.projectalpha.howispend.core.activity.LoginActivity;
 import it.projectalpha.howispend.core.dialog.DialogCambiaNomeCognome;
+import it.projectalpha.howispend.core.dialog.DialogCambioPassword;
 import it.projectalpha.howispend.core.filters.CheckAuthFilter;
 import it.projectalpha.howispend.model.Utente;
+import it.projectalpha.howispend.utilities.Constants;
 import it.projectalpha.howispend.utilities.IOHandler;
 import it.projectalpha.howispend.utilities.Session;
+import it.projectalpha.howispend.utilities.SnackbarUtils;
 
 public class HomeActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener,
-        BottomNavigationView.OnNavigationItemSelectedListener, DialogCambiaNomeCognome.CambiaNomeCognomeDialogListener {
+        BottomNavigationView.OnNavigationItemSelectedListener, DialogCambiaNomeCognome.CambiaNomeCognomeDialogListener,
+        DialogCambioPassword.CambioPasswordDialogListener {
 
     private Session session;
     private CheckAuthFilter checkAuthFilter;
     private Utente utente;
+    private Constants constants;
 
 
     private NavigationView navigationView;
@@ -43,7 +64,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     private TextView nomeCognome;
     private TextView emailHeader;
 
-    private GestureDetectorCompat gestureDetectorCompat = null;
+    private ConstraintLayout constraintLayoutActivity;
 
 
     @Override
@@ -52,6 +73,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         setContentView(R.layout.home);
 
         session = Session.getInstance();
+        constants = Constants.getInstance();
         checkAuthFilter = CheckAuthFilter.getInstance();
 
         if(checkAuthFilter.filter()) {
@@ -61,6 +83,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
         utente = session.getLoggedUser();
 
+        constraintLayoutActivity = findViewById(R.id.content_full_activity);
 
         navigationView = findViewById(R.id.menu_laterale);
         header = navigationView.inflateHeaderView(R.layout.drawer_header);
@@ -189,15 +212,73 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public void cambiaNome(String nuovoNome) {
-        this.utente.setNome(nuovoNome);
-        initMenuRes();
-        loadFragment(new ProfiloFragment());
+        modificaUtente(nuovoNome, utente.getCognome(), utente.getPassword(), ""+utente.getId());
     }
 
     @Override
     public void cambiaCognome(String nuovoCognome) {
-        this.utente.setCognome(nuovoCognome);
-        initMenuRes();
-        loadFragment(new ProfiloFragment());
+        modificaUtente(utente.getNome(), nuovoCognome, utente.getPassword(), ""+utente.getId());
+    }
+
+    @Override
+    public void cambioPassword(String nuovaPassword) {
+        modificaUtente(utente.getNome(), utente.getCognome(), nuovaPassword, ""+utente.getId());
+    }
+
+    @Override
+    public void error(String error) {
+        SnackbarUtils.showLongSnackBar(constraintLayoutActivity, error);
+    }
+
+
+    private void modificaUtente(final String nome, final String cognome, final String password, final String id) {
+        RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, constants.getURL_MODIFICA_UTENTE(),
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String serverResponse) {
+
+                        try {
+                            JSONArray jsonArray = new JSONArray(serverResponse);
+
+                            JSONObject jsonObject = jsonArray.getJSONObject(0);
+
+                            Utente nuovoUtente = constants.createUserFromJson(jsonObject);
+
+                            session.setLoggedUser(nuovoUtente);
+                            utente = nuovoUtente;
+
+                            initMenuRes();
+                            loadFragment(new ProfiloFragment());
+                            SnackbarUtils.showLongSnackBar(constraintLayoutActivity, "Le informazioni sono state aggiornate correttamente");
+
+                        } catch (JSONException | ParseException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError volleyError) {
+                        SnackbarUtils.showShortSnackBar(constraintLayoutActivity, "Si è verificato un errore.");
+                        initMenuRes();
+                        loadFragment(new ProfiloFragment());
+                    }
+                }) {
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<>();
+
+                params.put("id", id);
+                params.put("nome", nome);
+                params.put("cognome", cognome);
+                String passwordEncoded = Base64.getEncoder().encodeToString(password.getBytes());
+                params.put("password", passwordEncoded);
+
+                return params;
+            }
+        };
+
+        requestQueue.add(stringRequest);
     }
 }
