@@ -1,6 +1,10 @@
 package it.projectalpha.howispend.utilities;
 
+import android.widget.TextView;
+
 import com.google.android.material.textfield.TextInputEditText;
+
+import java.util.Objects;
 
 public class InputTextUtils {
 
@@ -10,7 +14,12 @@ public class InputTextUtils {
 
 
     public static String getTextFromTextInput(TextInputEditText editText) {
-        return editText.getText().toString().trim();
+        return Objects.requireNonNull(editText.getText()).toString().trim();
+    }
+
+
+    public static String getTextFromTextView(TextView textView) {
+        return textView.getText().toString().trim();
     }
 
 }

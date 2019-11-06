@@ -26,7 +26,6 @@
     <string name="crea_utente">Crea utente</string>
 
 
-
     <!--DRAWER MENU AND BOTTOM NAVIGATION-->
     <string name="profilo">Profilo</string>
     <string name="esci">Esci</string>
@@ -35,7 +34,6 @@
     <string name="home">Home</string>
     <string name="insight">Insight</string>
     <string name="cerca">Cerca</string>
-
 
 
     <!--PROFILO-->
@@ -51,9 +49,14 @@
     <string name="nuova_password">Nuova password</string>
 
 
+    <!--MESE-->
+    <string name="entrateMaiusc">ENTRATE</string>
+    <string name="usciteMaiusc">USCITE</string>
 
 
-
+    <!--DETTAGLIO MESE-->
+    <string name="dettaglio_mese">Dettagli mese</string>
+    <string name="lista_operazioni">Lista operazioni</string>
 
 
 </resources>

@@ -9,6 +9,8 @@ import java.text.ParseException;
 import java.time.LocalDate;
 import java.util.Base64;
 
+import it.projectalpha.howispend.model.Anno;
+import it.projectalpha.howispend.model.Mese;
 import it.projectalpha.howispend.model.Utente;
 
 @SuppressWarnings("all")
@@ -145,7 +147,7 @@ public class Constants {
         return new Utente(id, nome, cognome, email, password, dataCreazione);
     }
 
-    /*public Mese createMeseFromJson(JSONObject jsonObject) throws ParseException, JSONException {
+    public Mese createMeseFromJson(JSONObject jsonObject) throws ParseException, JSONException {
 
         int id = jsonObject.getInt("id");
         String mese = jsonObject.getString("mese");
@@ -154,11 +156,11 @@ public class Constants {
         double guadagno = jsonObject.getDouble("guadagno");
         double introiti = jsonObject.getDouble("introiti");
         boolean isAperto = jsonObject.getString("is_aperto").equals("1");
-        Date dataCreazione = new SimpleDateFormat("yyyy-MM-dd", Locale.US).parse(jsonObject.getString("data_creazione"));
+        LocalDate dataCreazione = LocalDate.parse(jsonObject.getString("data_creazione"));
 
         return new Mese(id, mese, spesaParziale, spesaFinale, guadagno, introiti, isAperto, dataCreazione);
 
-    }*/
+    }
 
     /*public Operazione createOperazioneFromJson(JSONObject jsonObject, Mese mese) throws ParseException, JSONException{
         Integer id = jsonObject.getInt("id");
@@ -169,17 +171,17 @@ public class Constants {
         return new Operazione(id, motivo, costo, mese, date);
     }*/
 
-    /*public Anno createAnnoFromJson(JSONObject jsonObject) throws JSONException, ParseException {
+    public Anno createAnnoFromJson(JSONObject jsonObject) throws JSONException, ParseException {
         Integer id = jsonObject.getInt("id");
         String anno = jsonObject.getString("anno");
-        Date dataCreazione = new SimpleDateFormat("yyyy-MM-dd", Locale.US).parse(jsonObject.getString("data_creazione"));
+        LocalDate dataCreazione = LocalDate.parse(jsonObject.getString("data_creazione"));
         double spesaParziale = jsonObject.getDouble("spesa_parziale");
         double spesaFinale = jsonObject.getDouble("spesa_finale");
         double risparmioFinale = jsonObject.getDouble("risparmio_finale");
         boolean isAperto = jsonObject.getString("is_aperto").equals("1");
 
         return new Anno(id, anno, dataCreazione, spesaParziale, spesaFinale, risparmioFinale, isAperto);
-    }*/
+    }
 
 
     /*public List<Mese> mesiAperti(Utente utente) {

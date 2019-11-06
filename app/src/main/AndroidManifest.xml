@@ -11,7 +11,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".core.activity.registrazione.NuovoUtenteActivity"/>
+        <activity android:name=".core.activity.dettagliomese.DettagliMese"></activity>
+        <activity android:name=".core.activity.registrazione.NuovoUtenteActivity" />
         <activity android:name=".core.activity.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
