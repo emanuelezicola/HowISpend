@@ -1,21 +1,19 @@
 package it.projectalpha.howispend.core.adapter;
 
-import android.content.res.Resources;
+import android.content.Context;
 import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.Description;
-import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
@@ -33,9 +31,12 @@ public class ListaMesiAdapter extends RecyclerView.Adapter<ListaMesiAdapter.Mese
     List<Mese> listaMesi;
     ItemClickListener clickListener;
 
-    public ListaMesiAdapter(List<Mese> listaMesi, ItemClickListener clickListener) {
+    private Context context;
+
+    public ListaMesiAdapter(List<Mese> listaMesi, ItemClickListener clickListener, Context context) {
         this.listaMesi = listaMesi;
         this.clickListener = clickListener;
+        this.context = context;
     }
 
 
@@ -55,13 +56,20 @@ public class ListaMesiAdapter extends RecyclerView.Adapter<ListaMesiAdapter.Mese
     @Override
     public void onBindViewHolder(MeseViewHolder meseViewHolder, int i) {
         Mese mese = listaMesi.get(i);
+        Boolean isAperto = mese.getAperto();
+
         meseViewHolder.headerMese.setText(mese.getMese());
-        String entrateContent = mese.getIntroiti() + " €";
+
+        meseViewHolder.labelEntrate.setText(isAperto ? "Saldo" : "Guadagno");
+
+        String entrateContent = (isAperto? mese.getIntroiti() : mese.getGuadagno()) + " €";
         meseViewHolder.entrate.setText(entrateContent);
-        String usciteContent = (mese.getAperto() ? mese.getSpesaParziale() : mese.getSpesaFinale()) + " €";
+
+        String usciteContent = (isAperto ? mese.getSpesaParziale() : mese.getSpesaFinale()) + " €";
         meseViewHolder.uscite.setText(usciteContent);
-        meseViewHolder.icMeseLocked.setVisibility(mese.getAperto() ? View.INVISIBLE : View.VISIBLE);
-        disegnaGrafico(mese.getIntroiti(), mese.getAperto() ? mese.getSpesaParziale() : mese.getSpesaFinale(), meseViewHolder);
+
+        meseViewHolder.icMeseLocked.setVisibility(isAperto ? View.INVISIBLE : View.VISIBLE);
+        disegnaGrafico(mese.getIntroiti(), isAperto ? mese.getSpesaParziale() : mese.getSpesaFinale(), meseViewHolder);
     }
 
     private void disegnaGrafico(Double introiti, Double spesa, MeseViewHolder meseViewHolder) {
@@ -76,26 +84,33 @@ public class ListaMesiAdapter extends RecyclerView.Adapter<ListaMesiAdapter.Mese
         }*/
 
         meseViewHolder.graficoAnteprima.setUsePercentValues(true);
+        meseViewHolder.graficoAnteprima.setTouchEnabled(false);
 
         ArrayList<PieEntry> entries = new ArrayList<>();
         entries.add(new PieEntry(Float.parseFloat(""+spesa), "", 0));
         entries.add(new PieEntry(Float.parseFloat(""+saldoResiduo), "", 1));
 
-        PieDataSet dataSet = new PieDataSet(entries, "Introiti");
+        PieDataSet dataSet = new PieDataSet(entries, "");
+        dataSet.setDrawValues(false);
         ArrayList<Integer> colors = new ArrayList<>();
-        colors.add(Color.RED);
-        colors.add(Color.GREEN);
+        colors.add(ContextCompat.getColor(context, R.color.red));
+        colors.add(ContextCompat.getColor(context, R.color.colorAccent));
         dataSet.setColors(colors);
+        meseViewHolder.graficoAnteprima.setDrawEntryLabels(false);
+
+
 
 
         PieData data = new PieData(dataSet);
         meseViewHolder.graficoAnteprima.setData(data);
         data.setValueFormatter(new DefaultValueFormatter(2));
 
+
         Description description = new Description();
-        description.setText("Legenda");
+        description.setText("");
         meseViewHolder.graficoAnteprima.setDescription(description);
 
+        meseViewHolder.graficoAnteprima.getLegend().setEnabled(false);
 
         meseViewHolder.graficoAnteprima.setDrawHoleEnabled(false);
         meseViewHolder.graficoAnteprima.setTransparentCircleRadius(58f);
@@ -121,6 +136,8 @@ public class ListaMesiAdapter extends RecyclerView.Adapter<ListaMesiAdapter.Mese
         ImageView icMeseLocked;
         PieChart graficoAnteprima;
 
+        TextView labelEntrate;
+
         MeseViewHolder(@NonNull View itemView) {
             super(itemView);
 
@@ -130,6 +147,8 @@ public class ListaMesiAdapter extends RecyclerView.Adapter<ListaMesiAdapter.Mese
             icMeseLocked = itemView.findViewById(R.id.icMeseLocked);
             graficoAnteprima = itemView.findViewById(R.id.graficoAnteprima);
             itemView.setOnClickListener(this);
+
+            labelEntrate = itemView.findViewById(R.id.headerSaldoResiiduoMeseItem);
         }
 
         @Override

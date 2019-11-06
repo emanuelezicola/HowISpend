@@ -135,7 +135,7 @@ public class HomeFragment extends Fragment implements ListaMesiAdapter.ItemClick
 
 
     private void populateListaMesi() {
-        ListaMesiAdapter adapter = new ListaMesiAdapter(listaMesi, this);
+        ListaMesiAdapter adapter = new ListaMesiAdapter(listaMesi, this, view.getContext());
         listaMesiRecycler.setAdapter(adapter);
     }
 
@@ -185,7 +185,7 @@ public class HomeFragment extends Fragment implements ListaMesiAdapter.ItemClick
                     }
                 },
                 volleyError -> {
-
+                        fetchListaAnni();
                 }) {
             @Override
             protected Map<String, String> getParams() {
@@ -225,7 +225,7 @@ public class HomeFragment extends Fragment implements ListaMesiAdapter.ItemClick
                     }
                 },
                 volleyError -> {
-
+                    fetchListaMesiByAnnoId(annoId);
                 }) {
             @Override
             protected Map<String, String> getParams() {
