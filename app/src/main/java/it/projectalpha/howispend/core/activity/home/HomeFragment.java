@@ -141,6 +141,7 @@ public class HomeFragment extends Fragment implements ListaMesiAdapter.ItemClick
 
     @Override
     public void onListItemClick(int clickedItemIndex) {
+        listaMesiRecycler.setClickable(false);
         Mese mese = listaMesi.get(clickedItemIndex);
         Bundle bundle = new Bundle();
         bundle.putInt("meseId", mese.getId());
@@ -203,7 +204,7 @@ public class HomeFragment extends Fragment implements ListaMesiAdapter.ItemClick
 
     private void fetchListaMesiByAnnoId(final String annoId) {
 
-        RequestQueue requestQueue = Volley.newRequestQueue(Objects.requireNonNull(getContext()));
+        RequestQueue requestQueue = Volley.newRequestQueue(view.getContext());
         StringRequest stringRequest = new StringRequest(Request.Method.POST, constants.getURL_MESI_BY_ANNO(),
 
                 serverResponse -> {
