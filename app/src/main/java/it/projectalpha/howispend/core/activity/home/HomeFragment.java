@@ -72,7 +72,7 @@ public class HomeFragment extends Fragment implements ListaMesiAdapter.ItemClick
 
 
 
-        spinnerAnni = view.findViewById(R.id.spinnerAnniHome);
+        spinnerAnni = view.findViewById(R.id.spinnerAnniInsight);
         btnAddMese = view.findViewById(R.id.btnAddMese);
 
 
