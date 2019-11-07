@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <TextView
+        android:id="@+id/labelSelezionaMese"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/labelSelezionaMese"
+        android:textAlignment="center"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="8dp"
+        style="@style/header"/>
+
+    <Spinner
+        android:id="@+id/selezionaMese"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="8dp"
+        android:entries="@array/spinnerMesiEntries"
+        android:textAlignment="center"
+        android:paddingStart="50dp"
+        android:paddingEnd="0dp"/>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="@style/inputField"
+        android:hint="@string/introiti_facoltativo"
+        android:layout_marginTop="8dp">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/inputIntroitiFac"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            style="@style/inputText"
+            android:inputType="numberDecimal">
+        </com.google.android.material.textfield.TextInputEditText>
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+</LinearLayout>

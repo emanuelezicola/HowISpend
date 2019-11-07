@@ -27,9 +27,6 @@ import it.projectalpha.howispend.model.Utente;
 
 public class RegistrazioneFirstFragment extends Fragment {
 
-    private View view;
-
-    private MaterialButton btnAvanti, btnAnnulla;
     private TextInputEditText nomeInput, cognomeInput;
 
 
@@ -39,13 +36,13 @@ public class RegistrazioneFirstFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        view = inflater.inflate(R.layout.registrazione_first_fragment, container, false);
+        View view1 = inflater.inflate(R.layout.registrazione_first_fragment, container, false);
 
 
-        btnAvanti = view.findViewById(R.id.nuovoUtenteStep2);
-        btnAnnulla = view.findViewById(R.id.backToLogin);
-        nomeInput = view.findViewById(R.id.nuovoUtenteNome);
-        cognomeInput = view.findViewById(R.id.nuovoUtenteCognome);
+        MaterialButton btnAvanti = view1.findViewById(R.id.nuovoUtenteStep2);
+        MaterialButton btnAnnulla = view1.findViewById(R.id.backToLogin);
+        nomeInput = view1.findViewById(R.id.nuovoUtenteNome);
+        cognomeInput = view1.findViewById(R.id.nuovoUtenteCognome);
 
 
         utente = NuovoUtenteActivity.getUtente();
@@ -59,39 +56,33 @@ public class RegistrazioneFirstFragment extends Fragment {
             cognomeInput.setText(utente.getCognome());
         }
 
-        btnAvanti.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        btnAvanti.setOnClickListener(view -> {
 
-                String nome = InputTextUtils.getTextFromTextInput(nomeInput);
-                String cognome = InputTextUtils.getTextFromTextInput(cognomeInput);
+            String nome = InputTextUtils.getTextFromTextInput(nomeInput);
+            String cognome = InputTextUtils.getTextFromTextInput(cognomeInput);
 
-                if(!invalidInput(nome, cognome)) {
+            if(!invalidInput(nome, cognome)) {
 
-                    utente.setNome(nome);
-                    utente.setCognome(cognome);
+                utente.setNome(nome);
+                utente.setCognome(cognome);
 
-                    NuovoUtenteActivity.setUtente(utente);
+                NuovoUtenteActivity.setUtente(utente);
 
 
-                    RegistrazioneSecondFragment fragment2 = new RegistrazioneSecondFragment();
-                    FragmentManager fragmentManager = getFragmentManager();
-                    FragmentTransaction fragmentTransaction = Objects.requireNonNull(fragmentManager).beginTransaction();
-                    fragmentTransaction.replace(R.id.nuovoUtenteFrame, fragment2);
-                    fragmentTransaction.commit();
-                }
+                RegistrazioneSecondFragment fragment2 = new RegistrazioneSecondFragment();
+                FragmentManager fragmentManager = getFragmentManager();
+                FragmentTransaction fragmentTransaction = Objects.requireNonNull(fragmentManager).beginTransaction();
+                fragmentTransaction.replace(R.id.nuovoUtenteFrame, fragment2);
+                fragmentTransaction.commit();
             }
         });
 
-        btnAnnulla.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                utente = null;
-                Intent intent = new Intent(getActivity(), LoginActivity.class);
-                startActivity(intent);
-            }
+        btnAnnulla.setOnClickListener(view -> {
+            utente = null;
+            Intent intent = new Intent(getActivity(), LoginActivity.class);
+            startActivity(intent);
         });
-        return view;
+        return view1;
     }
 
 

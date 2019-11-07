@@ -9,8 +9,6 @@ import androidx.fragment.app.Fragment;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.material.button.MaterialButton;
@@ -37,7 +35,7 @@ public class RegistrazioneSecondFragment extends Fragment {
 
     private View view;
 
-    private MaterialButton indietro, creaUtente;
+    private MaterialButton creaUtente;
     private TextInputEditText emailInput, passwordInput, confermaPasswordInput;
 
     private Utente utente;
@@ -54,7 +52,7 @@ public class RegistrazioneSecondFragment extends Fragment {
         utente = NuovoUtenteActivity.getUtente();
         constants = Constants.getInstance();
 
-        indietro = view.findViewById(R.id.backToFirst);
+        MaterialButton indietro = view.findViewById(R.id.backToFirst);
         creaUtente = view.findViewById(R.id.creaUtente);
         emailInput = view.findViewById(R.id.nuovoUtenteEmail);
         passwordInput = view.findViewById(R.id.nuovoUtentePassword);
@@ -65,39 +63,33 @@ public class RegistrazioneSecondFragment extends Fragment {
 
 
         //Gestione tasto indietro
-        indietro.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        indietro.setOnClickListener(view -> {
 
 
-                RegistrazioneFirstFragment fragment1 = new RegistrazioneFirstFragment();
-                FragmentManager fragmentManager = getFragmentManager();
-                FragmentTransaction fragmentTransaction = Objects.requireNonNull(fragmentManager).beginTransaction();
-                fragmentTransaction.replace(R.id.nuovoUtenteFrame, fragment1);
-                fragmentTransaction.commit();
-            }
+            RegistrazioneFirstFragment fragment1 = new RegistrazioneFirstFragment();
+            FragmentManager fragmentManager = getFragmentManager();
+            FragmentTransaction fragmentTransaction = Objects.requireNonNull(fragmentManager).beginTransaction();
+            fragmentTransaction.replace(R.id.nuovoUtenteFrame, fragment1);
+            fragmentTransaction.commit();
         });
 
         //Gestione crea nuovo utente
-        creaUtente.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String email = InputTextUtils.getTextFromTextInput(emailInput);
-                String password = InputTextUtils.getTextFromTextInput(passwordInput);
-                String passwordConferma = InputTextUtils.getTextFromTextInput(confermaPasswordInput);
+        creaUtente.setOnClickListener(view -> {
+            String email = InputTextUtils.getTextFromTextInput(emailInput);
+            String password = InputTextUtils.getTextFromTextInput(passwordInput);
+            String passwordConferma = InputTextUtils.getTextFromTextInput(confermaPasswordInput);
 
-                if(!invalidEmail(email) && !invalidPassword(password, passwordConferma)) {
-                    utente.setEmail(email);
+            if(!invalidEmail(email) && !invalidPassword(password, passwordConferma)) {
+                utente.setEmail(email);
 
-                    String passwordEncoded = Base64.getEncoder().encodeToString(password.getBytes());
-                    utente.setPassword(passwordEncoded);
-                    utente.setDataCreazione(LocalDate.now());
+                String passwordEncoded = Base64.getEncoder().encodeToString(password.getBytes());
+                utente.setPassword(passwordEncoded);
+                utente.setDataCreazione(LocalDate.now());
 
-                    doRegistrazione();
-
-                }
+                doRegistrazione();
 
             }
+
         });
 
         return view;
@@ -164,35 +156,29 @@ public class RegistrazioneSecondFragment extends Fragment {
 
         RequestQueue requestQueue = Volley.newRequestQueue(view.getContext());
         StringRequest stringRequest = new StringRequest(Request.Method.POST, constants.getURL_NUOVO_UTENTE(),
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String serverResponse) {
+                serverResponse -> {
 
-                        if(!"[]".equals(serverResponse)) {
-                            Intent intent = new Intent(getActivity(), LoginActivity.class);
-                            startActivity(intent);
-                            ButtonUtils.enableButton(creaUtente, true);
-                            NuovoUtenteActivity.setUtente(new Utente());
-                            NuovoUtenteActivity.setFragment(null);
-                        }
-
-                        else {
-                            try {
-                                throw new Exception();
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                                SnackbarUtils.showShortSnackBar(creaUtente, "Ops, qualcosa è andato storto");
-                            }
-                        }
-
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError volleyError) {
-                        SnackbarUtils.showShortSnackBar(creaUtente, "Si è verificato un errore, riprova più tardi");
+                    if(!"[]".equals(serverResponse)) {
+                        Intent intent = new Intent(getActivity(), LoginActivity.class);
+                        startActivity(intent);
                         ButtonUtils.enableButton(creaUtente, true);
+                        NuovoUtenteActivity.setUtente(new Utente());
+                        NuovoUtenteActivity.setFragment(null);
                     }
+
+                    else {
+                        try {
+                            throw new Exception();
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                            SnackbarUtils.showShortSnackBar(creaUtente, "Ops, qualcosa è andato storto");
+                        }
+                    }
+
+                },
+                volleyError -> {
+                    SnackbarUtils.showShortSnackBar(creaUtente, "Si è verificato un errore, riprova più tardi");
+                    ButtonUtils.enableButton(creaUtente, true);
                 }) {
             @Override
             protected Map<String, String> getParams() {

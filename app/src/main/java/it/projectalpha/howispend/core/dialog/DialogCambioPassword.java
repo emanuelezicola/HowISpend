@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -54,28 +53,21 @@ public class DialogCambioPassword extends AppCompatDialogFragment {
         builder.setView(view)
                 .setTitle("Sei sicuro di voler cambiare password?")
                 .setMessage("Inserisci la vecchia password, poi la nuova")
-                .setNegativeButton("Annulla", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
+                .setNegativeButton("Annulla", (dialogInterface, i) -> {
 
-                    }
                 })
-                .setPositiveButton("Salva modifiche", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
+                .setPositiveButton("Salva modifiche", (dialogInterface, i) -> {
 
-                        String vecchiaPassword = InputTextUtils.getTextFromTextInput(vecchiaPasswordInput);
-                        String nuovaPassword = InputTextUtils.getTextFromTextInput(nuovaPasswordInput);
-                        String confermaPassword = InputTextUtils.getTextFromTextInput(confermaPasswordInput);
+                    String vecchiaPassword = InputTextUtils.getTextFromTextInput(vecchiaPasswordInput);
+                    String nuovaPassword = InputTextUtils.getTextFromTextInput(nuovaPasswordInput);
+                    String confermaPassword = InputTextUtils.getTextFromTextInput(confermaPasswordInput);
 
-                        String result = invalidPassword(vecchiaPassword, nuovaPassword, confermaPassword);
-                        if(!StringUtils.isBlank(result)) {
-                           listener.error(result);
-                           return;
-                        }
-                        listener.cambioPassword(nuovaPassword);
+                    String result = invalidPassword(vecchiaPassword, nuovaPassword, confermaPassword);
+                    if(!StringUtils.isBlank(result)) {
+                       listener.error(result);
+                       return;
                     }
-
+                    listener.cambioPassword(nuovaPassword);
                 });
 
         return builder.create();

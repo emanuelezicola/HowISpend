@@ -1,6 +1,5 @@
 package it.projectalpha.howispend.utilities;
 
-import com.google.android.material.textfield.TextInputEditText;
 
 import org.json.JSONException;
 import org.json.JSONObject;

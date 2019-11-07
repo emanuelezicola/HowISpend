@@ -52,11 +52,14 @@
     <!--MESE-->
     <string name="rimanenzeMaiusc">RIMANENZE</string>
     <string name="speseMaiusc">SPESE</string>
+    <string name="introiti">Introiti</string>
+    <string name="introiti_facoltativo">Inserisci gli Introiti (Facoltativo)</string>
+    <string name="labelSelezionaMese">Seleziona il mese da aggiungere</string>
 
 
     <!--DETTAGLIO MESE-->
-    <string name="dettaglio_mese">Dettagli mese</string>
-    <string name="lista_operazioni">Lista operazioni</string>
+    <string name="dettaglio_mese">Dettagli</string>
+    <string name="lista_operazioni">Operazioni</string>
 
 
 

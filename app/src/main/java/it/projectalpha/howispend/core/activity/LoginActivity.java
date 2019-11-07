@@ -4,13 +4,10 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.CheckBox;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.material.button.MaterialButton;
@@ -80,28 +77,22 @@ public class LoginActivity extends AppCompatActivity {
         }
 
 
-        buttonLogin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String emailString = InputTextUtils.getTextFromTextInput(emailInput);
-                String passwordString = InputTextUtils.getTextFromTextInput(passwordInput);
+        buttonLogin.setOnClickListener(view -> {
+            String emailString = InputTextUtils.getTextFromTextInput(emailInput);
+            String passwordString = InputTextUtils.getTextFromTextInput(passwordInput);
 
-                if(invalidInput(emailString, passwordString)) {
-                    return;
-                }
-
-                String passwordEncoded = Base64.getEncoder().encodeToString(passwordString.getBytes());
-                doLogin(emailString, passwordEncoded);
+            if(invalidInput(emailString, passwordString)) {
+                return;
             }
+
+            String passwordEncoded = Base64.getEncoder().encodeToString(passwordString.getBytes());
+            doLogin(emailString, passwordEncoded);
         });
 
 
-        nuovoAccountBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(LoginActivity.this, NuovoUtenteActivity.class);
-                startActivity(intent);
-            }
+        nuovoAccountBtn.setOnClickListener(view -> {
+            Intent intent = new Intent(LoginActivity.this, NuovoUtenteActivity.class);
+            startActivity(intent);
         });
 
 
@@ -112,53 +103,47 @@ public class LoginActivity extends AppCompatActivity {
 
         RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
         StringRequest stringRequest = new StringRequest(Request.Method.POST, constants.getURL_LOGIN(),
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String serverResponse) {
+                serverResponse -> {
 
-                        try{
-                            JSONArray jsonArray = new JSONArray(serverResponse);
+                    try{
+                        JSONArray jsonArray = new JSONArray(serverResponse);
 
-                            Utente utente = constants.createUserFromJson(jsonArray.getJSONObject(0));
-                            session.setLoggedUser(utente);
+                        Utente utente = constants.createUserFromJson(jsonArray.getJSONObject(0));
+                        session.setLoggedUser(utente);
 
-                            if(rimaniCollegato.isChecked()) {
-                                String toBeSaved = utente.getEmail() + " &&& " + utente.getPassword() + " &&& true";
-                                try {
-                                    ioHandler.writeToFile(toBeSaved, LoginActivity.this);
-                                    SnackbarUtils.showShortSnackBar(buttonLogin, "Verrai ricordato al prossimo accesso");
-                                } catch (IOException e) {
-                                    e.printStackTrace();
-                                    SnackbarUtils.showShortSnackBar(buttonLogin,
-                                            "Qualcosa è andato storto nel salvare le credenziali");
-                                }
-                            } else {
+                        if(rimaniCollegato.isChecked()) {
+                            String toBeSaved = utente.getEmail() + " &&& " + utente.getPassword() + " &&& true";
+                            try {
+                                ioHandler.writeToFile(toBeSaved, LoginActivity.this);
+                                SnackbarUtils.showShortSnackBar(buttonLogin, "Verrai ricordato al prossimo accesso");
+                            } catch (IOException e) {
+                                e.printStackTrace();
                                 SnackbarUtils.showShortSnackBar(buttonLogin,
-                                        ioHandler.deleteFile(getApplicationContext()) ?
-                                                "Dovrai inserire le credenziali al prossimo accesso"
-                                                : "Si è verificato un problema nel rimuovere le credenziali");
+                                        "Qualcosa è andato storto nel salvare le credenziali");
                             }
-
-                            Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
-                            startActivity(intent);
-
-
-                        } catch(JSONException | ParseException e)  {
-                            e.printStackTrace();
-                            SnackbarUtils.showShortSnackBar(buttonLogin, "Username o password errati");
-                            setUsernameAndPasswordInputError();
+                        } else {
+                            SnackbarUtils.showShortSnackBar(buttonLogin,
+                                    ioHandler.deleteFile(getApplicationContext()) ?
+                                            "Dovrai inserire le credenziali al prossimo accesso"
+                                            : "Si è verificato un problema nel rimuovere le credenziali");
                         }
-                        finally {
-                            enableButtons(true);
-                        }
+
+                        Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
+                        startActivity(intent);
+
+
+                    } catch(JSONException | ParseException e)  {
+                        e.printStackTrace();
+                        SnackbarUtils.showShortSnackBar(buttonLogin, "Username o password errati");
+                        setUsernameAndPasswordInputError();
                     }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError volleyError) {
-                        SnackbarUtils.showShortSnackBar(buttonLogin, "Si è verificato un errore, riprova più tardi");
+                    finally {
                         enableButtons(true);
                     }
+                },
+                volleyError -> {
+                    SnackbarUtils.showShortSnackBar(buttonLogin, "Si è verificato un errore, riprova più tardi");
+                    enableButtons(true);
                 }) {
             @Override
             protected Map<String, String> getParams() {

@@ -1,5 +1,6 @@
 package it.projectalpha.howispend.core.activity.home;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -35,6 +36,7 @@ import java.util.Objects;
 import it.projectalpha.howispend.R;
 import it.projectalpha.howispend.core.activity.dettagliomese.DettagliMese;
 import it.projectalpha.howispend.core.adapter.ListaMesiAdapter;
+import it.projectalpha.howispend.core.dialog.DialogNuovoMese;
 import it.projectalpha.howispend.model.Anno;
 import it.projectalpha.howispend.model.Mese;
 import it.projectalpha.howispend.model.Utente;
@@ -61,12 +63,12 @@ public class HomeFragment extends Fragment implements ListaMesiAdapter.ItemClick
     private List<Mese> listaMesi = new ArrayList<>();
     private Anno currentAnno;
 
+    @SuppressLint("InflateParams")
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         view = inflater.inflate(R.layout.home_fragment, null);
-
 
 
 
@@ -113,12 +115,7 @@ public class HomeFragment extends Fragment implements ListaMesiAdapter.ItemClick
             }
         });
 
-        btnAddMese.setOnClickListener(view -> {
-            //TODO CLICK ADD MESE
-        });
-
-
-
+        btnAddMese.setOnClickListener(view -> createDialogNuovoMese());
 
 
         return view;
@@ -151,6 +148,16 @@ public class HomeFragment extends Fragment implements ListaMesiAdapter.ItemClick
         startActivity(intent);
     }
 
+
+    private void createDialogNuovoMese() {
+        DialogNuovoMese dialogNuovoMese = new DialogNuovoMese();
+
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("anno", currentAnno);
+
+        dialogNuovoMese.setArguments(bundle);
+        dialogNuovoMese.show(Objects.requireNonNull(getActivity()).getSupportFragmentManager(), "nuovoMeseDialog");
+    }
 
 
 
@@ -185,9 +192,9 @@ public class HomeFragment extends Fragment implements ListaMesiAdapter.ItemClick
                         SnackbarUtils.showLongSnackBar(view, "Qualcosa è andato storto");
                     }
                 },
-                volleyError -> {
-                        fetchListaAnni();
-                }) {
+                volleyError -> fetchListaAnni())
+
+        {
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();
@@ -225,9 +232,9 @@ public class HomeFragment extends Fragment implements ListaMesiAdapter.ItemClick
                         SnackbarUtils.showLongSnackBar(view, "Qualcosa è andato storto");
                     }
                 },
-                volleyError -> {
-                    fetchListaMesiByAnnoId(annoId);
-                }) {
+                volleyError -> fetchListaMesiByAnnoId(annoId))
+
+        {
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();

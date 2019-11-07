@@ -1,9 +1,11 @@
 package it.projectalpha.howispend.model;
 
 
+import java.io.Serializable;
 import java.time.LocalDate;
 
-public class Anno {
+@SuppressWarnings("unused")
+public class Anno implements Serializable {
 
     private Integer id;
     private String anno;

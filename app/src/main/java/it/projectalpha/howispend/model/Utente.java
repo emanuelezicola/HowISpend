@@ -6,6 +6,7 @@ import androidx.annotation.Nullable;
 import java.io.Serializable;
 import java.time.LocalDate;
 
+@SuppressWarnings("unused")
 public class Utente implements Serializable {
 
     private Integer id;

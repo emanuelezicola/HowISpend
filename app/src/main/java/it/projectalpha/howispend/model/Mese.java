@@ -2,6 +2,7 @@ package it.projectalpha.howispend.model;
 
 import java.time.LocalDate;
 
+@SuppressWarnings("unused")
 public class Mese {
 
     private Integer id;

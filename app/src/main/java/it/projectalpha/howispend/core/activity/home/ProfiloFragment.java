@@ -1,6 +1,6 @@
 package it.projectalpha.howispend.core.activity.home;
 
-import android.content.DialogInterface;
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,7 +10,6 @@ import android.widget.TextView;
 import java.util.Objects;
 
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 
@@ -24,13 +23,12 @@ import it.projectalpha.howispend.utilities.SnackbarUtils;
 public class ProfiloFragment extends Fragment {
 
     private TextView nomeText, cognomeText, nomeCognomeText, emailText, passwordText;
-    private ConstraintLayout wrapperNome, wrapperCognome, wrapperEmail, wrapperPassword;
 
     private View view;
 
-    private Session session;
     private Utente utente;
 
+    @SuppressLint("InflateParams")
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -42,45 +40,25 @@ public class ProfiloFragment extends Fragment {
         emailText = view.findViewById(R.id.emailProfilo);
         passwordText = view.findViewById(R.id.passwordProfilo);
 
-        wrapperNome = view.findViewById(R.id.constraintNomeProfiloFrag);
-        wrapperCognome = view.findViewById(R.id.constraintCognomeProfiloFrag);
-        wrapperEmail = view.findViewById(R.id.constraintEmailProfiloFrag);
-        wrapperPassword = view.findViewById(R.id.constraintPasswordProfiloFrag);
+        ConstraintLayout wrapperNome = view.findViewById(R.id.constraintNomeProfiloFrag);
+        ConstraintLayout wrapperCognome = view.findViewById(R.id.constraintCognomeProfiloFrag);
+        ConstraintLayout wrapperEmail = view.findViewById(R.id.constraintEmailProfiloFrag);
+        ConstraintLayout wrapperPassword = view.findViewById(R.id.constraintPasswordProfiloFrag);
 
 
-        session = Session.getInstance();
+        Session session = Session.getInstance();
         utente = session.getLoggedUser();
 
         setRes();
 
 
-        wrapperNome.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                createDialog("Sei sicuro di voler cambiare nome?", "Inserisci il nuovo nome", "Nome");
-            }
-        });
+        wrapperNome.setOnClickListener(view -> createDialog("Sei sicuro di voler cambiare nome?", "Inserisci il nuovo nome", "Nome"));
 
-        wrapperCognome.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                createDialog("Sei sicuro di voler cambiare cognome?","Inserisci il nuovo cognome", "Cognome");
-            }
-        });
+        wrapperCognome.setOnClickListener(view -> createDialog("Sei sicuro di voler cambiare cognome?","Inserisci il nuovo cognome", "Cognome"));
 
-        wrapperEmail.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                SnackbarUtils.showShortSnackBar(view, "Non è possibile cambiare la mail");
-            }
-        });
+        wrapperEmail.setOnClickListener(v -> SnackbarUtils.showShortSnackBar(view, "Non è possibile cambiare la mail"));
 
-        wrapperPassword.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                createDialogCambioPassword();
-            }
-        });
+        wrapperPassword.setOnClickListener(view -> createDialogCambioPassword());
 
 
 

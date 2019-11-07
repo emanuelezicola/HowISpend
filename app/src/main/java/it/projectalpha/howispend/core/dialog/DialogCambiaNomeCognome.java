@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,12 +19,10 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatDialogFragment;
 import it.projectalpha.howispend.R;
 import it.projectalpha.howispend.utilities.InputTextUtils;
-import it.projectalpha.howispend.utilities.SnackbarUtils;
 
 public class DialogCambiaNomeCognome extends AppCompatDialogFragment {
 
     private TextInputEditText nomeInput;
-    private TextInputLayout wrapperNomeInput;
 
 
     private CambiaNomeCognomeDialogListener listener;
@@ -40,7 +37,7 @@ public class DialogCambiaNomeCognome extends AppCompatDialogFragment {
         @SuppressLint("InflateParams") final View view = inflater.inflate(R.layout.dialog_cambio_nome, null);
 
         nomeInput = view.findViewById(R.id.nuovoNomeInput);
-        wrapperNomeInput = view.findViewById(R.id.wrapperNomeCognome);
+        TextInputLayout wrapperNomeInput = view.findViewById(R.id.wrapperNomeCognome);
 
         Bundle bundle = Objects.requireNonNull(getArguments());
         String title = bundle.getString("Title");
@@ -52,29 +49,24 @@ public class DialogCambiaNomeCognome extends AppCompatDialogFragment {
         builder.setView(view)
                 .setTitle(title)
                 .setMessage(message)
-                .setNegativeButton("Annulla", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
+                .setNegativeButton("Annulla", (dialogInterface, i) -> {
 
-                    }
                 })
-                .setPositiveButton("Salva modifiche", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        String nome = InputTextUtils.getTextFromTextInput(nomeInput);
+                .setPositiveButton("Salva modifiche", (dialogInterface, i) -> {
+                    String nome = InputTextUtils.getTextFromTextInput(nomeInput);
 
-                        if(StringUtils.isBlank(nome)) {
-                            SnackbarUtils.showShortSnackBar(view, "Il " + nomeOCognome + " inserito non è valido");
-                            return;
-                        }
-                        if("Nome".equals(nomeOCognome)) {
-                            listener.cambiaNome(nome);
-                        } else {
-                            listener.cambiaCognome(nome);
-                        }
+                    if(StringUtils.isBlank(nome)) {
+                        listener.error("Il " + nomeOCognome + " inserito non è valido");
+                        return;
+                    }
+
+                    if("Nome".equals(nomeOCognome)) {
+                        listener.cambiaNome(nome);
+                    } else {
+                        listener.cambiaCognome(nome);
                     }
                 }
-        );
+                );
 
         return builder.create();
     }
@@ -97,6 +89,7 @@ public class DialogCambiaNomeCognome extends AppCompatDialogFragment {
     {
         void cambiaNome(String nuovoNome);
         void cambiaCognome(String nuovoCognome);
+        void error(String error);
     }
 
 

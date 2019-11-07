@@ -1,6 +1,5 @@
 package it.projectalpha.howispend.core.activity.home;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -16,8 +15,6 @@ import androidx.fragment.app.Fragment;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -28,6 +25,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.text.ParseException;
+import java.time.LocalDate;
 import java.util.Base64;
 import java.util.HashMap;
 import java.util.Map;
@@ -37,7 +35,9 @@ import it.projectalpha.howispend.R;
 import it.projectalpha.howispend.core.activity.LoginActivity;
 import it.projectalpha.howispend.core.dialog.DialogCambiaNomeCognome;
 import it.projectalpha.howispend.core.dialog.DialogCambioPassword;
+import it.projectalpha.howispend.core.dialog.DialogNuovoMese;
 import it.projectalpha.howispend.core.filters.CheckAuthFilter;
+import it.projectalpha.howispend.model.Anno;
 import it.projectalpha.howispend.model.Utente;
 import it.projectalpha.howispend.utilities.Constants;
 import it.projectalpha.howispend.utilities.IOHandler;
@@ -46,7 +46,7 @@ import it.projectalpha.howispend.utilities.SnackbarUtils;
 
 public class HomeActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener,
         BottomNavigationView.OnNavigationItemSelectedListener, DialogCambiaNomeCognome.CambiaNomeCognomeDialogListener,
-        DialogCambioPassword.CambioPasswordDialogListener {
+        DialogCambioPassword.CambioPasswordDialogListener, DialogNuovoMese.NuovoMeseListener {
 
     private Session session;
     private Utente utente;
@@ -167,18 +167,12 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
         alertDialogBuilder.setMessage("Sei sicuro di voler uscire da How I Spend?");
 
-        alertDialogBuilder.setPositiveButton("Si", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface arg0, int arg1) {
-                finishAffinity();
-                System.exit(0);
-            }
+        alertDialogBuilder.setPositiveButton("Si", (arg0, arg1) -> {
+            finishAffinity();
+            System.exit(0);
         });
 
-        alertDialogBuilder.setNegativeButton("No", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {}
-        });
+        alertDialogBuilder.setNegativeButton("No", (dialog, which) -> {});
 
         AlertDialog alertDialog = alertDialogBuilder.create();
         alertDialog.show();
@@ -211,6 +205,11 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public void cambioPassword(String nuovaPassword) {
         modificaUtente(utente.getNome(), utente.getCognome(), nuovaPassword, ""+utente.getId());
+    }
+
+    @Override
+    public void aggiungiMese(String mese, double introiti, Anno anno) {
+        aggiungiMeseOnDb(mese, introiti, anno);
     }
 
     @Override
@@ -263,4 +262,37 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
         requestQueue.add(stringRequest);
     }
+
+
+    private void aggiungiMeseOnDb(String mese, double introiti, Anno anno) {
+        RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, constants.getURL_NUOVO_MESE(),
+
+                serverResponse -> {
+                    if("1".equals(serverResponse)) {
+                        loadFragment(new HomeFragment());
+                    } else {
+                        SnackbarUtils.showShortSnackBar(constraintLayoutActivity, "Si è verificato un errore");
+                    }
+                },
+
+                volleyError -> SnackbarUtils.showShortSnackBar(constraintLayoutActivity, "Si è verificato un errore."))
+        {
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<>();
+
+                params.put("nomeMese", mese);
+                params.put("utenteId", String.valueOf(session.getLoggedUser().getId()));
+                params.put("dataCreazione", LocalDate.now().toString());
+                params.put("annoId", String.valueOf(anno.getId()));
+                params.put("introiti", String.valueOf(introiti));
+
+                return params;
+            }
+        };
+
+        requestQueue.add(stringRequest);
+    }
+
 }
