@@ -3,7 +3,7 @@ package it.projectalpha.howispend.model;
 import java.time.LocalDate;
 
 @SuppressWarnings("unused")
-public class Mese {
+public class Mese implements Comparable<Mese> {
 
     private Integer id;
     private String mese;
@@ -98,5 +98,10 @@ public class Mese {
 
     public void setDataCreazione(LocalDate dataCreazione) {
         this.dataCreazione = dataCreazione;
+    }
+
+    @Override
+    public int compareTo(Mese mese) {
+        return mese.getMese().compareTo(this.mese);
     }
 }

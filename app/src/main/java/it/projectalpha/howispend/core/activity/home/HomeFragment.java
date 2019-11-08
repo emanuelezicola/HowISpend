@@ -27,11 +27,17 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
+import java.util.SortedSet;
+import java.util.TreeSet;
+import java.util.stream.Collectors;
 
 import it.projectalpha.howispend.R;
 import it.projectalpha.howispend.core.activity.dettagliomese.DettagliMese;
@@ -132,7 +138,20 @@ public class HomeFragment extends Fragment implements ListaMesiAdapter.ItemClick
 
 
     private void populateListaMesi() {
-        ListaMesiAdapter adapter = new ListaMesiAdapter(listaMesi, this, view.getContext());
+        SortedSet<Mese> monthSet = new TreeSet<>((o1, o2) -> {
+            try {
+                SimpleDateFormat fmt = new SimpleDateFormat("MMM", Locale.ITALY);
+                return currentAnno.getAperto() ?
+                        Objects.requireNonNull(fmt.parse(o2.getMese())).compareTo(fmt.parse(o1.getMese())) :
+                        Objects.requireNonNull(fmt.parse(o1.getMese())).compareTo(fmt.parse(o2.getMese()));
+            } catch (ParseException ex) {
+                return o1.compareTo(o2);
+            }
+        });
+
+        monthSet.addAll(listaMesi);
+
+        ListaMesiAdapter adapter = new ListaMesiAdapter(new ArrayList<>(monthSet), this, view.getContext());
         listaMesiRecycler.setAdapter(adapter);
     }
 

@@ -26,6 +26,7 @@ import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
+import com.github.mikephil.charting.formatter.DefaultAxisValueFormatter;
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 import com.github.mikephil.charting.formatter.LargeValueFormatter;
 import com.github.mikephil.charting.utils.ColorTemplate;
@@ -37,6 +38,7 @@ import org.json.JSONObject;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -46,6 +48,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.SortedSet;
 import java.util.TreeSet;
+import java.util.stream.Collectors;
 
 import it.projectalpha.howispend.R;
 import it.projectalpha.howispend.model.Anno;
@@ -84,6 +87,8 @@ public class InsightFragment extends Fragment {
 
         spinnerAnni = view.findViewById(R.id.spinnerAnniInsight);
         horizontalBarChart = view.findViewById(R.id.mesiInsight);
+
+        horizontalBarChart.setVisibility(View.INVISIBLE);
 
 
 
@@ -147,56 +152,46 @@ public class InsightFragment extends Fragment {
 
     private void disegnaGrafico() {
 
-        SortedSet<String> monthSet = new TreeSet<>((o1, o2) -> {
+        SortedSet<Mese> monthSet = new TreeSet<>((o1, o2) -> {
             try {
                 SimpleDateFormat fmt = new SimpleDateFormat("MMM", Locale.ITALY);
-                return Objects.requireNonNull(fmt.parse(o1)).compareTo(fmt.parse(o2));
+                return Objects.requireNonNull(fmt.parse(o2.getMese())).compareTo(fmt.parse(o1.getMese()));
             } catch (ParseException ex) {
                 return o1.compareTo(o2);
             }
         });
 
-        for(Mese mese : listaMesi) {
-            monthSet.add(mese.getMese().substring(0, 3));
-        }
+        monthSet.addAll(listaMesi);
 
-        List<String> months = new ArrayList<>(monthSet);
+        List<String> months = monthSet.stream().map(x -> x.getMese().substring(0, 3)).collect(Collectors.toList());
 
 
         horizontalBarChart.setPinchZoom(false);
         horizontalBarChart.setScaleEnabled(false);
         horizontalBarChart.setDrawGridBackground(false);
-        horizontalBarChart.setPinchZoom(false);
         horizontalBarChart.setScaleXEnabled(false);
         horizontalBarChart.setScaleYEnabled(false);
         horizontalBarChart.setDrawBarShadow(false);
-
 
         float barWidth = 0.3f;
         float barSpace = 0f;
         float groupSpace = 0.4f;
 
 
-        List<String> xVals = new ArrayList<>();
-        xVals.add("Gen");
-        xVals.add("Feb");
-        xVals.add("Mar");
-        xVals.add("Apr");
-        xVals.add("Mag");
-        xVals.add("Giu");
-
-
-        List<BarEntry> yVals1 = getData();
-        List<BarEntry> yVals2 = getData1();
-
+        List<BarEntry> yVals1 = getData(monthSet, true);
+        List<BarEntry> yVals2 = getData(monthSet, false);
 
 
         BarDataSet set1, set2;
         set1 = new BarDataSet(yVals1, "Entrate");
         set1.setColor(ContextCompat.getColor(view.getContext(), R.color.colorAccent));
+        set1.setValueTextSize(10);
+        set1.setValueTextColor(ContextCompat.getColor(view.getContext(), R.color.colorAccent));
 
         set2 = new BarDataSet(yVals2, "Uscite");
         set2.setColor(ContextCompat.getColor(view.getContext(), R.color.red));
+        set2.setValueTextSize(10);
+        set2.setValueTextColor(ContextCompat.getColor(view.getContext(), R.color.red));
 
 
         BarData data = new BarData(set2, set1);
@@ -205,12 +200,15 @@ public class InsightFragment extends Fragment {
         horizontalBarChart.getBarData().setBarWidth(barWidth);
 
         horizontalBarChart.getDescription().setText("Andamento dei mesi");
+        horizontalBarChart.getDescription().setTextSize(10);
+
+
         horizontalBarChart.getXAxis().setAxisMinimum(0);
         horizontalBarChart.getXAxis().setAxisMaximum(0 + horizontalBarChart.getBarData().getGroupWidth(groupSpace, barSpace) * 2);
         horizontalBarChart.groupBars(0, groupSpace, barSpace);
         horizontalBarChart.getData().setHighlightEnabled(false);
-        horizontalBarChart.animateX(1000);
         horizontalBarChart.invalidate();
+        horizontalBarChart.animateY(1000);
 
 
         Legend l = horizontalBarChart.getLegend();
@@ -221,7 +219,7 @@ public class InsightFragment extends Fragment {
         l.setYOffset(20f);
         l.setXOffset(0f);
         l.setYEntrySpace(0f);
-        l.setTextSize(8f);
+        l.setTextSize(10f);
 
 
         //X-axis
@@ -229,45 +227,46 @@ public class InsightFragment extends Fragment {
         xAxis.setGranularity(1f);
         xAxis.setGranularityEnabled(true);
         xAxis.setCenterAxisLabels(true);
-        xAxis.setDrawGridLines(false);
-        xAxis.setAxisMaximum(6);
+        xAxis.setDrawGridLines(true);
+        xAxis.setAxisMaximum(yVals2.size());
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
-        xAxis.setValueFormatter(new IndexAxisValueFormatter(xVals));
+        xAxis.setValueFormatter(new IndexAxisValueFormatter(months));
+        xAxis.setLabelCount(months.size());
+
         //Y-axis
         horizontalBarChart.getAxisRight().setEnabled(false);
         YAxis leftAxis = horizontalBarChart.getAxisLeft();
-        leftAxis.setValueFormatter(new LargeValueFormatter());
+        leftAxis.setValueFormatter(new DefaultAxisValueFormatter(2));
         leftAxis.setDrawGridLines(true);
         leftAxis.setSpaceTop(35f);
         leftAxis.setAxisMinimum(0f);
 
-    }
+        horizontalBarChart.setVisibility(View.VISIBLE);
 
-    private List<BarEntry> getData(){
-        //TODO lo zero si trova in basso non in alto
-        List<BarEntry> entries = new ArrayList<>();
-        entries.add(new BarEntry(0, 1340));
-        entries.add(new BarEntry(1, 1300));
-        entries.add(new BarEntry(2, 1300));
-        entries.add(new BarEntry(3, 1300));
-        entries.add(new BarEntry(4, 2002));
-        entries.add(new BarEntry(5, 4443));
-
-        return entries;
     }
 
 
-    private List<BarEntry> getData1() {
-        //TODO lo zero si trova in basso non in alto
-        List<BarEntry> entries = new ArrayList<>();
-        entries.add(new BarEntry(0, 500));
-        entries.add(new BarEntry(1, 400));
-        entries.add(new BarEntry(2, 550));
-        entries.add(new BarEntry(3, 1200));
-        entries.add(new BarEntry(4, 1339));
-        entries.add(new BarEntry(5, 2345));
+    private List<BarEntry> getData(SortedSet<Mese> mesi, boolean isEntrate) {
+        List<BarEntry> result = new ArrayList<>();
 
-        return entries;
+
+        List<Integer> entrate;
+
+        if(isEntrate) {
+          entrate = mesi.stream().map(x -> x.getIntroiti().intValue()).collect(Collectors.toList());
+        }
+        else {
+            entrate = mesi.stream()
+                    .map(x -> x.getAperto() ? Math.abs(x.getSpesaParziale().intValue()) : Math.abs(x.getSpesaFinale().intValue()))
+                    .collect(Collectors.toList());
+        }
+
+        int counter = 0;
+        for(double entrata : entrate) {
+            result.add(new BarEntry(counter, (float)entrata));
+            counter++;
+        }
+        return result;
     }
 
 
@@ -280,7 +279,7 @@ public class InsightFragment extends Fragment {
 
     private void fetchListaAnni() {
 
-        RequestQueue requestQueue = Volley.newRequestQueue(Objects.requireNonNull(getContext()));
+        RequestQueue requestQueue = Volley.newRequestQueue(view.getContext());
         StringRequest stringRequest = new StringRequest(Request.Method.POST, constants.getURL_ALL_ANNI(),
 
                 serverResponse -> {
