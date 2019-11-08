@@ -19,4 +19,11 @@
 
 
 
+    <string-array name="spinnerCercaHome">
+        <item>Entrate</item>
+        <item>Uscite</item>
+    </string-array>
+
+
+
 </resources>

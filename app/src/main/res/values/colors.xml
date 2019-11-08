@@ -3,6 +3,9 @@
     <color name="colorPrimary">#283c4b</color>
     <color name="colorPrimaryDark">#20313C</color>
     <color name="colorAccent">#43A85A</color>
+    <color name="colorAccentTrasparent">#4D43A85A</color>
     <color name="colorAccentDark">#348247</color>
+    <color name="colorAccentDarkTrasparent">#4D348247</color>
     <color name="red">#D62929</color>
+    <color name="redTransparent">#4DD62929</color>
 </resources>

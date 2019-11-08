@@ -67,4 +67,12 @@
     <string name="annoLabel">Anno</string>
 
 
+
+    <!--RICERCA HOME-->
+    <string name="importo">Importo</string>
+    <string name="min">Min</string>
+    <string name="max">Max</string>
+    <string name="guadagno">Guadagno</string>
+    <string name="spesa">Spesa</string>
+
 </resources>
