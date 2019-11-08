@@ -29,7 +29,6 @@ import org.json.JSONObject;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -37,7 +36,6 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.SortedSet;
 import java.util.TreeSet;
-import java.util.stream.Collectors;
 
 import it.projectalpha.howispend.R;
 import it.projectalpha.howispend.core.activity.dettagliomese.DettagliMese;
@@ -185,7 +183,7 @@ public class HomeFragment extends Fragment implements ListaMesiAdapter.ItemClick
 
     private void fetchListaAnni() {
 
-        RequestQueue requestQueue = Volley.newRequestQueue(Objects.requireNonNull(getContext()));
+        RequestQueue requestQueue = Volley.newRequestQueue(view.getContext());
         StringRequest stringRequest = new StringRequest(Request.Method.POST, constants.getURL_ALL_ANNI(),
 
                 serverResponse -> {

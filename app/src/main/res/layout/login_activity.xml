@@ -112,7 +112,7 @@
 
     <!--BTN AVANTI-->
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/login_btn"
+        android:id="@+id/cercaHomeBtn"
         style="@style/backgroundedButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

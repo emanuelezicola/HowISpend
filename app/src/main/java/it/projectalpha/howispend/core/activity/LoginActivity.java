@@ -55,7 +55,7 @@ public class LoginActivity extends AppCompatActivity {
         ioHandler = new IOHandler();
 
 
-        buttonLogin = findViewById(R.id.login_btn);
+        buttonLogin = findViewById(R.id.cercaHomeBtn);
         nuovoAccountBtn = findViewById(R.id.nuovo_account);
         emailInput = findViewById(R.id.emailInput);
         passwordInput = findViewById(R.id.passwordInput);
