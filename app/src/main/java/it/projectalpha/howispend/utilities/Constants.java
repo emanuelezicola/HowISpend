@@ -31,7 +31,7 @@ public class Constants {
     private final String URL_ELIMINA_MESE = "https://howispend.altervista.org/mese/eliminaMese.php";
     private final String URL_CHIUDI_MESE = "https://howispend.altervista.org/mese/chiudiMese.php";
     private final String URL_MESI_BY_ANNO = "https://howispend.altervista.org/mese/fetchMesiByAnno.php";
-
+    private final String URL_RICERCA = "https://howispend.altervista.org/mese/ricercaMesi.php";
 
     //OPERAZIONE
     private final String URL_AGGIORNA_OPERAZIONE = "https://howispend.altervista.org/operazione/aggiornaOperazione.php";
@@ -134,6 +134,9 @@ public class Constants {
         return URL_MESI_BY_ANNO;
     }
 
+    public String getURL_RICERCA() {
+        return URL_RICERCA;
+    }
 
     public Utente createUserFromJson(JSONObject jsonObject) throws ParseException, JSONException {
         int id = jsonObject.getInt("id");
