@@ -1,4 +1,4 @@
-package it.projectalpha.howispend.core.activity;
+package it.projectalpha.howispend.core.activity.login;
 
 import androidx.appcompat.app.AppCompatActivity;
 

@@ -2,7 +2,7 @@ package it.projectalpha.howispend.core.activity.registrazione;
 
 import androidx.appcompat.app.AppCompatActivity;
 import it.projectalpha.howispend.R;
-import it.projectalpha.howispend.core.activity.LoginActivity;
+import it.projectalpha.howispend.core.activity.login.LoginActivity;
 import it.projectalpha.howispend.model.Utente;
 
 import android.content.Intent;

@@ -6,6 +6,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -32,7 +33,7 @@ import java.util.Map;
 import java.util.Objects;
 
 import it.projectalpha.howispend.R;
-import it.projectalpha.howispend.core.activity.LoginActivity;
+import it.projectalpha.howispend.core.activity.login.LoginActivity;
 import it.projectalpha.howispend.core.dialog.DialogCambiaNomeCognome;
 import it.projectalpha.howispend.core.dialog.DialogCambioPassword;
 import it.projectalpha.howispend.core.dialog.DialogNuovoMese;
@@ -53,13 +54,11 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     private Constants constants;
 
 
-    private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle toggle;
     private TextView nomeCognome;
     private TextView emailHeader;
 
     private ConstraintLayout constraintLayoutActivity;
-    private BottomNavigationView navigation;
 
 
     @Override
@@ -84,7 +83,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         View header = navigationView.inflateHeaderView(R.layout.drawer_header);
         nomeCognome = header.findViewById(R.id.nomeCognomeDrawerTop);
         emailHeader = header.findViewById(R.id.emailDrawerTop);
-        drawerLayout = findViewById(R.id.home_drawer_layout);
+        DrawerLayout drawerLayout = findViewById(R.id.home_drawer_layout);
         toggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.apri, R.string.chiudi);
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
@@ -97,7 +96,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         loadFragment(new HomeFragment());
 
         //getting bottom navigation view and attaching the listener
-        navigation = findViewById(R.id.navigation);
+        BottomNavigationView navigation = findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(this);
 
 
@@ -149,15 +148,12 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     }
 
 
-    @SuppressWarnings("all")
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
 
         if(toggle.onOptionsItemSelected(item)) {
             return true;
         }
-
-        int id = item.getItemId();
         return super.onOptionsItemSelected(item);
     }
 

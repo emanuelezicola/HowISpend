@@ -2,7 +2,6 @@ package it.projectalpha.howispend.core.activity.home;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,7 +28,6 @@ import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.formatter.DefaultAxisValueFormatter;
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 import com.github.mikephil.charting.formatter.LargeValueFormatter;
-import com.github.mikephil.charting.utils.ColorTemplate;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -38,10 +36,7 @@ import org.json.JSONObject;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -71,7 +66,6 @@ public class InsightFragment extends Fragment {
 
 
     private Anno currentAnno;
-    private Session session;
     private Constants constants;
     private Utente loggedUser;
 
@@ -93,7 +87,7 @@ public class InsightFragment extends Fragment {
 
 
         constants = Constants.getInstance();
-        session = Session.getInstance();
+        Session session = Session.getInstance();
         loggedUser = session.getLoggedUser();
 
 

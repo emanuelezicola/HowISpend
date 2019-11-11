@@ -55,11 +55,9 @@ public class HomeFragment extends Fragment implements ListaMesiAdapter.ItemClick
 
     private Spinner spinnerAnni;
     private RecyclerView listaMesiRecycler;
-    private FloatingActionButton btnAddMese;
 
 
     private Constants constants;
-    private Session session;
     private Utente loggedUser;
 
 
@@ -77,7 +75,7 @@ public class HomeFragment extends Fragment implements ListaMesiAdapter.ItemClick
 
 
         spinnerAnni = view.findViewById(R.id.spinnerAnniInsight);
-        btnAddMese = view.findViewById(R.id.btnAddMese);
+        FloatingActionButton btnAddMese = view.findViewById(R.id.btnAddMese);
 
 
         listaMesiRecycler = view.findViewById(R.id.listaMesi);
@@ -88,7 +86,7 @@ public class HomeFragment extends Fragment implements ListaMesiAdapter.ItemClick
 
 
         constants = Constants.getInstance();
-        session = Session.getInstance();
+        Session session = Session.getInstance();
         loggedUser = session.getLoggedUser();
 
 

@@ -3,22 +3,22 @@
 
 
     <item
-        android:id="@+id/profilo_navigation"
+        android:id="@+id/dettagli_mese_navigation"
         android:icon="@drawable/ic_dashboard"
         android:title="@string/dettaglio_mese"/>
 
     <item
-        android:id="@+id/home_navigation"
+        android:id="@+id/operazioni_mese_navigation"
         android:icon="@drawable/ic_list"
         android:title="@string/lista_operazioni"/>
 
     <item
-        android:id="@+id/insight_navigation"
+        android:id="@+id/insight_mese_navigation"
         android:icon="@drawable/ic_insight"
         android:title="@string/insight"/>
 
     <item
-        android:id="@+id/cerca_navigation"
+        android:id="@+id/cerca_mese_navigation"
         android:icon="@drawable/ic_cerca"
         android:title="@string/cerca"/>
 
