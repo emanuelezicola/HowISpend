@@ -159,8 +159,9 @@ public class Constants {
         double introiti = jsonObject.getDouble("introiti");
         boolean isAperto = jsonObject.getString("is_aperto").equals("1");
         LocalDate dataCreazione = LocalDate.parse(jsonObject.getString("data_creazione"));
+        int idAnno = jsonObject.getInt("anno_id");
 
-        return new Mese(id, mese, spesaParziale, spesaFinale, guadagno, introiti, isAperto, dataCreazione);
+        return new Mese(id, mese, spesaParziale, spesaFinale, guadagno, introiti, isAperto, dataCreazione, idAnno);
 
     }
 

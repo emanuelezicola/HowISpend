@@ -55,6 +55,10 @@
     <string name="introiti">Introiti</string>
     <string name="introiti_facoltativo">Inserisci gli Introiti (Facoltativo)</string>
     <string name="labelSelezionaMese">Seleziona il mese da aggiungere</string>
+    <string name="spese">Spese</string>
+    <string name="saldo">Saldo</string>
+    <string name="n_entrate">N° di Entrate</string>
+    <string name="n_uscite">N° di Uscite</string>
 
 
     <!--DETTAGLIO MESE-->

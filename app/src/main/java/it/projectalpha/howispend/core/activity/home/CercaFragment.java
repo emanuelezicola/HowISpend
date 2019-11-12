@@ -298,8 +298,6 @@ public class CercaFragment extends Fragment implements ListaMesiAdapter.ItemClic
         };
 
         requestQueue.add(stringRequest);
-
-
     }
 
 

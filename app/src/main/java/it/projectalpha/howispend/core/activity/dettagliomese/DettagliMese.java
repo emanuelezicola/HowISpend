@@ -8,13 +8,25 @@ import androidx.fragment.app.Fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.text.ParseException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 import it.projectalpha.howispend.R;
@@ -25,10 +37,13 @@ import it.projectalpha.howispend.core.activity.home.InsightFragment;
 import it.projectalpha.howispend.core.activity.home.ProfiloFragment;
 import it.projectalpha.howispend.core.activity.login.LoginActivity;
 import it.projectalpha.howispend.core.filters.CheckAuthFilter;
+import it.projectalpha.howispend.model.Anno;
+import it.projectalpha.howispend.model.Mese;
 import it.projectalpha.howispend.model.Utente;
 import it.projectalpha.howispend.utilities.Constants;
 import it.projectalpha.howispend.utilities.IOHandler;
 import it.projectalpha.howispend.utilities.Session;
+import it.projectalpha.howispend.utilities.SnackbarUtils;
 
 public class DettagliMese extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener,
         BottomNavigationView.OnNavigationItemSelectedListener {
@@ -44,6 +59,10 @@ public class DettagliMese extends AppCompatActivity implements NavigationView.On
     private Session session;
     private Utente loggedUser;
     private Constants constants;
+
+    private Mese currentMese;
+    private Anno annoDelMese;
+
 
 
     @Override
@@ -78,13 +97,17 @@ public class DettagliMese extends AppCompatActivity implements NavigationView.On
 
         navigationView.setNavigationItemSelectedListener(this);
 
-        loadFragment(new DettagliMeseFragment());
 
         //getting bottom navigation view and attaching the listener
         navigation = findViewById(R.id.navigation_dettagli_mese);
         navigation.setOnNavigationItemSelectedListener(this);
 
         initMenuRes();
+
+        Bundle bundle = Objects.requireNonNull(getIntent().getExtras());
+        int idMese = bundle.getInt("meseId");
+
+        fetchMeseById(idMese);
 
 
     }
@@ -125,7 +148,7 @@ public class DettagliMese extends AppCompatActivity implements NavigationView.On
                 break;
 
             case R.id.dettagli_mese_navigation:
-                fragment = new DettagliMeseFragment();
+                fragment = new DettagliMeseFragment(currentMese, annoDelMese);
                 break;
 
             case R.id.operazioni_mese_navigation:
@@ -161,4 +184,76 @@ public class DettagliMese extends AppCompatActivity implements NavigationView.On
         nomeCognome.setText(nomeCognomeRes);
         emailHeader.setText(loggedUser.getEmail());
     }
+
+
+    private void fetchMeseById(Integer idMese) {
+
+        RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, constants.getURL_MESE_BY_ID(),
+
+                serverResponse -> {
+
+                    try {
+                        JSONArray jsonArray = new JSONArray(serverResponse);
+
+                        currentMese = constants.createMeseFromJson(jsonArray.getJSONObject(0));
+
+                        fetchAnnoByIdMese(currentMese.getIdAnno());
+
+                    } catch (JSONException | ParseException e) {
+                        e.printStackTrace();
+                    }
+
+                },
+                volleyError -> SnackbarUtils.showShortSnackBar(drawerLayout, "Si è verificato un errore, prova di nuovo"))
+
+        {
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<>();
+
+                params.put("meseId", String.valueOf(idMese));
+                return params;
+            }
+        };
+
+        requestQueue.add(stringRequest);
+    }
+
+    private void fetchAnnoByIdMese(Integer idAnno) {
+
+        RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, constants.getURL_ANNO_BY_ID(),
+
+                serverResponse -> {
+
+                    try {
+                        JSONArray jsonArray = new JSONArray(serverResponse);
+
+                        annoDelMese = constants.createAnnoFromJson(jsonArray.getJSONObject(0));
+
+                        loadFragment(new DettagliMeseFragment(currentMese, annoDelMese));
+
+                    } catch (JSONException | ParseException e) {
+                        e.printStackTrace();
+                    }
+
+                },
+                volleyError -> SnackbarUtils.showShortSnackBar(navigation, "Si è verificato un errore, prova di nuovo"))
+
+        {
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<>();
+
+                params.put("idAnno", String.valueOf(idAnno));
+                return params;
+            }
+        };
+
+        requestQueue.add(stringRequest);
+
+
+    }
+
 }

@@ -13,9 +13,10 @@ public class Mese implements Comparable<Mese> {
     private Double introiti;
     private Boolean isAperto;
     private LocalDate dataCreazione;
+    private Integer idAnno;
 
 
-    public Mese(Integer id, String mese, Double spesaParziale, Double spesaFinale, Double guadagno, Double introiti, Boolean isAperto, LocalDate dataCreazione) {
+    public Mese(Integer id, String mese, Double spesaParziale, Double spesaFinale, Double guadagno, Double introiti, Boolean isAperto, LocalDate dataCreazione, Integer idAnno) {
         this.id = id;
         this.mese = mese;
         this.spesaParziale = spesaParziale;
@@ -24,9 +25,10 @@ public class Mese implements Comparable<Mese> {
         this.introiti = introiti;
         this.isAperto = isAperto;
         this.dataCreazione = dataCreazione;
+        this.idAnno = idAnno;
     }
 
-    public Mese(String mese, Double spesaParziale, Double spesaFinale, Double guadagno, Double introiti, Boolean isAperto, LocalDate dataCreazione) {
+    public Mese(String mese, Double spesaParziale, Double spesaFinale, Double guadagno, Double introiti, Boolean isAperto, LocalDate dataCreazione, Integer idAnno) {
         this.mese = mese;
         this.spesaParziale = spesaParziale;
         this.spesaFinale = spesaFinale;
@@ -34,6 +36,7 @@ public class Mese implements Comparable<Mese> {
         this.introiti = introiti;
         this.isAperto = isAperto;
         this.dataCreazione = dataCreazione;
+        this.idAnno = idAnno;
     }
 
     public Integer getId() {
@@ -98,6 +101,14 @@ public class Mese implements Comparable<Mese> {
 
     public void setDataCreazione(LocalDate dataCreazione) {
         this.dataCreazione = dataCreazione;
+    }
+
+    public Integer getIdAnno() {
+        return idAnno;
+    }
+
+    public void setIdAnno(Integer idAnno) {
+        this.idAnno = idAnno;
     }
 
     @Override
