@@ -2,11 +2,9 @@ package it.projectalpha.howispend.core.activity.dettagliomese;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -23,10 +21,12 @@ import com.github.mikephil.charting.data.PieEntry;
 import com.github.mikephil.charting.formatter.PercentFormatter;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import it.projectalpha.howispend.R;
 import it.projectalpha.howispend.model.Anno;
 import it.projectalpha.howispend.model.Mese;
+import it.projectalpha.howispend.model.Operazione;
 
 public class DettagliMeseFragment extends Fragment {
 
@@ -39,12 +39,14 @@ public class DettagliMeseFragment extends Fragment {
 
     private Mese currentMese;
     private Anno annoDelMese;
+    private List<Operazione> listaOperazioniMese = new ArrayList<>();
 
 
 
-    DettagliMeseFragment(Mese currentMese, Anno annoDelMese) {
+    DettagliMeseFragment(Mese currentMese, Anno annoDelMese, List<Operazione> listaOperazioniMese) {
         this.currentMese = currentMese;
         this.annoDelMese = annoDelMese;
+        this.listaOperazioniMese = listaOperazioniMese;
     }
 
     @SuppressLint("InflateParams")
@@ -87,8 +89,22 @@ public class DettagliMeseFragment extends Fragment {
         speseValueDettagliMese.setText(String.valueOf(currentMese.getAperto() ? currentMese.getSpesaParziale() : currentMese.getSpesaFinale()));
         saldoValueDettagliMese.setText(String.valueOf(currentMese.getIntroiti() -
                 Math.abs( (currentMese.getAperto() ? currentMese.getSpesaParziale() : currentMese.getSpesaFinale()) ) ));
-        valueNEntrateDettagliMese.setText("2");
-        valueNUsciteDettagliMese.setText("9");
+
+
+        int nEntrate = 0;
+        int nUscite = 0;
+
+        for(Operazione op : listaOperazioniMese) {
+
+            if(op.getCosto()<0) {
+                nUscite++;
+            } else if(op.getCosto() > 0) {
+                nEntrate++;
+            }
+        }
+
+        valueNEntrateDettagliMese.setText(String.valueOf(nEntrate));
+        valueNUsciteDettagliMese.setText(String.valueOf(nUscite));
 
         disegnaGrafico();
 

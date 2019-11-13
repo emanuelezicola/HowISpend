@@ -10,6 +10,7 @@ import java.util.Base64;
 
 import it.projectalpha.howispend.model.Anno;
 import it.projectalpha.howispend.model.Mese;
+import it.projectalpha.howispend.model.Operazione;
 import it.projectalpha.howispend.model.Utente;
 
 @SuppressWarnings("all")
@@ -165,14 +166,15 @@ public class Constants {
 
     }
 
-    /*public Operazione createOperazioneFromJson(JSONObject jsonObject, Mese mese) throws ParseException, JSONException{
+    public Operazione createOperazioneFromJson(JSONObject jsonObject) throws ParseException, JSONException{
         Integer id = jsonObject.getInt("id");
         String motivo = jsonObject.getString("motivo");
         Double costo = jsonObject.getDouble("costo");
-        Date date = new SimpleDateFormat("yyyy-MM-dd", Locale.US).parse(jsonObject.getString("data_creazione"));
+        LocalDate date = LocalDate.parse(jsonObject.getString("data_creazione"));
+        Integer idMese = jsonObject.getInt("mese_id");
 
-        return new Operazione(id, motivo, costo, mese, date);
-    }*/
+        return new Operazione(id, motivo, costo, date, idMese);
+    }
 
     public Anno createAnnoFromJson(JSONObject jsonObject) throws JSONException, ParseException {
         Integer id = jsonObject.getInt("id");
